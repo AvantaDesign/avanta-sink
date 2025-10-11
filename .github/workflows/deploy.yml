@@ -1,4 +1,4 @@
-name: Deploy to Cloudflare Pages
+name: Deploy to Cloudflare Workers
 
 on:
   push:
@@ -40,12 +40,13 @@ jobs:
           NUXT_CF_API_TOKEN: ${{ secrets.NUXT_CF_API_TOKEN }}
           NUXT_DATASET: ${{ secrets.NUXT_DATASET }}
           
-      - name: Deploy to Cloudflare Pages
+      - name: Deploy to Cloudflare Workers
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy Sink/dist --project-name=avanta-shortener
+          command: deploy
+          working-directory: ./Sink
           
       - name: Comment deployment URL on PR
         if: github.event_name == 'pull_request'
@@ -56,6 +57,6 @@ jobs:
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: '🚀 Deployment successful! Preview URL will be available in Cloudflare Pages dashboard.'
+              body: '🚀 Deployment successful! Preview URL will be available in Cloudflare Workers dashboard.'
             })
 
