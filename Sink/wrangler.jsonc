@@ -1,6 +1,7 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "avanta-shortener",
+  "main": "dist/server/index.mjs",
   "compatibility_date": "2024-09-19",
   "compatibility_flags": [
     "nodejs_compat"
@@ -21,5 +22,10 @@
       "id": "72deef7455434f76bb424080cbcfa5b9"
     }
   ],
-  "pages_build_output_dir": "dist"
+  "routes": [
+    {
+      "pattern": "avanta.design/*",
+      "zone_name": "avanta.design"
+    }
+  ]
 }

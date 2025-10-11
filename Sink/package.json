@@ -8,7 +8,7 @@
     "node": ">=20.11"
   },
   "scripts": {
-    "build": "NODE_OPTIONS=--max-old-space-size=8192 nuxt build",
+    "build": "nuxt build",
     "build:map": "node scripts/build-map.js",
     "build:colo": "node scripts/build-colo.js",
     "postinstall": "npm run build:map && nuxt prepare",
@@ -17,7 +17,7 @@
     "lint-staged": "lint-staged",
     "wrangler": "wrangler",
     "dev": "nuxt dev",
-    "deploy": "npm run deploy:pages",
+    "deploy": "npm run deploy:worker",
     "deploy:pages": "wrangler pages deploy dist",
     "deploy:worker": "wrangler deploy",
     "preview": "wrangler dev --var $(cat .env | sed 's/=/:/g')",
