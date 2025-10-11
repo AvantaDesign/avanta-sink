@@ -7,6 +7,10 @@
     "nodejs_compat"
   ],
   "upload_source_maps": true,
+  "assets": {
+    "directory": "dist/public",
+    "binding": "ASSETS"
+  },
   "ai": {
     "binding": "AI"
   },
