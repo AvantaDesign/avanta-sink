@@ -1,0 +1,25 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "avanta-shortener",
+  "compatibility_date": "2024-09-19",
+  "compatibility_flags": [
+    "nodejs_compat"
+  ],
+  "upload_source_maps": true,
+  "ai": {
+    "binding": "AI"
+  },
+  "analytics_engine_datasets": [
+    {
+      "binding": "ANALYTICS",
+      "dataset": "avanta_shortener"
+    }
+  ],
+  "kv_namespaces": [
+    {
+      "binding": "KV",
+      "id": "72deef7455434f76bb424080cbcfa5b9"
+    }
+  ],
+  "pages_build_output_dir": "dist"
+}
