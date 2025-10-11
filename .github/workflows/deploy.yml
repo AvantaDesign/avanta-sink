@@ -1,0 +1,56 @@
+name: Deploy to Cloudflare Pages
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          
+      - name: Install dependencies
+        working-directory: ./Sink
+        run: npm ci
+        
+      - name: Build application
+        working-directory: ./Sink
+        run: npm run build
+        env:
+          NODE_OPTIONS: --max-old-space-size=8192
+          NUXT_SITE_TOKEN: ${{ secrets.NUXT_SITE_TOKEN }}
+          NUXT_CF_ACCOUNT_ID: ${{ secrets.NUXT_CF_ACCOUNT_ID }}
+          NUXT_CF_API_TOKEN: ${{ secrets.NUXT_CF_API_TOKEN }}
+          NUXT_DATASET: ${{ secrets.NUXT_DATASET }}
+          
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy Sink/dist --project-name=avanta-shortener
+          
+      - name: Comment deployment URL on PR
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '🚀 Deployment successful! Preview URL will be available in Cloudflare Pages dashboard.'
+            })
+
