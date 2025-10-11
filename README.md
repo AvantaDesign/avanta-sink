@@ -35,14 +35,15 @@ avanta-sink/
 
 ## 🌐 URLs
 
-- **Production**: `https://avanta.design`
-- **Dashboard**: `https://avanta.design/dashboard`
-- **Login**: `https://avanta.design/dashboard/login`
+- **Production**: `https://avanta.design` (redirects to avantadesign.com)
+- **Admin Dashboard**: `https://avanta.design/admin`
+- **Login**: `https://avanta.design/admin/login`
 
 ## 🔐 Authentication
 
 - **Token**: `1S#dDta2Cr%O7H`
-- **Access**: Admin dashboard at `/dashboard/login`
+- **Access**: Admin dashboard at `/admin/login`
+- **Note**: Username field is required for LastPass compatibility but any value works
 
 ## 📊 Migration Summary
 
@@ -68,7 +69,27 @@ npm install
 npm run dev
 ```
 
-### Deployment
+### Automatic Deployment (Recommended)
+
+The project uses GitHub Actions for automatic deployment:
+
+- **Push to `main`**: Automatically deploys to production
+- **Pull Requests**: Creates preview deployments
+
+#### Required GitHub Secrets
+
+Configure these in **Settings → Secrets and variables → Actions**:
+
+```
+CLOUDFLARE_API_TOKEN       # Cloudflare API token with Pages permissions
+CLOUDFLARE_ACCOUNT_ID      # Your Cloudflare account ID
+NUXT_SITE_TOKEN           # Site authentication token (1S#dDta2Cr%O7H)
+NUXT_CF_ACCOUNT_ID        # Cloudflare account ID
+NUXT_CF_API_TOKEN         # Cloudflare API token
+NUXT_DATASET              # Analytics dataset name (avanta_shortener)
+```
+
+### Manual Deployment
 
 ```bash
 cd Sink
@@ -116,17 +137,33 @@ curl -X POST https://avanta.design/api/link/create \
 
 ### Managing Links
 
-- **Dashboard**: `https://avanta.design/dashboard/links`
+- **Dashboard**: `https://avanta.design/admin/links`
 - **Search**: Find links by URL or slug
 - **Edit**: Update destination URLs
 - **Delete**: Remove unwanted links
-- **Analytics**: View click statistics
+- **Analytics**: View click statistics at `/admin/analysis`
+
+## 🎨 Design
+
+### Color Scheme
+
+- **Primary**: `hsl(18 96% 58%)` - Avanta Orange
+- **Secondary**: `hsl(14 83% 53%)` - Avanta Flame
+- **Background**: Dark neutral (`hsl(0 0% 7%)`)
+- **Accent**: Orange gradient matching avantadesign.com
+
+### Branding
+
+The URL shortener has been fully rebranded to match Avanta Design's visual identity, featuring the signature orange color palette and clean, modern interface.
 
 ## 🚀 Deployment History
 
 - **Initial Setup**: October 11, 2025
 - **T2M Migration**: 84 links migrated successfully
 - **Custom Domain**: `avanta.design` configured
+- **Rebrand**: Changed from purple to orange theme
+- **Route Update**: Dashboard moved from `/dashboard` to `/admin`
+- **GitHub Actions**: Automatic deployment configured
 - **Production**: Live on Cloudflare Pages
 
 ## 📝 Notes
