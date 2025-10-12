@@ -27,11 +27,9 @@ jobs:
           version: 10.11.0
           
       - name: Install dependencies
-        working-directory: ./Sink
         run: pnpm install --frozen-lockfile
         
       - name: Build application
-        working-directory: ./Sink
         run: pnpm run build
         env:
           NODE_OPTIONS: --max-old-space-size=8192
@@ -46,7 +44,6 @@ jobs:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           command: deploy
-          working-directory: ./Sink
           
       - name: Comment deployment URL on PR
         if: github.event_name == 'pull_request'
