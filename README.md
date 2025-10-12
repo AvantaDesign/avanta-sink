@@ -1,6 +1,6 @@
 # Avanta Design URL Shortener
 
-A self-hosted URL shortener powered by [Sink](https://github.com/denolehov/sink) and deployed on Cloudflare Pages.
+A self-hosted URL shortener powered by [Sink](https://github.com/denolehov/sink) and deployed on Cloudflare Workers.
 
 ## 🚀 Features
 
@@ -14,7 +14,7 @@ A self-hosted URL shortener powered by [Sink](https://github.com/denolehov/sink)
 ## 🔧 Technical Stack
 
 - **Framework**: Nuxt 3 with Nitro
-- **Deployment**: Cloudflare Pages
+- **Deployment**: Cloudflare Workers
 - **Database**: Cloudflare KV
 - **Analytics**: Cloudflare Analytics Engine
 - **Authentication**: Custom token-based system
@@ -81,7 +81,7 @@ The project uses GitHub Actions for automatic deployment:
 Configure these in **Settings → Secrets and variables → Actions**:
 
 ```
-CLOUDFLARE_API_TOKEN       # Cloudflare API token with Pages permissions
+CLOUDFLARE_API_TOKEN       # Cloudflare API token with Workers permissions
 CLOUDFLARE_ACCOUNT_ID      # Your Cloudflare account ID
 NUXT_SITE_TOKEN           # Site authentication token (1S#dDta2Cr%O7H)
 NUXT_CF_ACCOUNT_ID        # Cloudflare account ID
@@ -94,7 +94,7 @@ NUXT_DATASET              # Analytics dataset name (avanta_shortener)
 ```bash
 cd Sink
 npm run build
-npx wrangler pages deploy dist --project-name avanta-shortener
+npx wrangler deploy
 ```
 
 ## 🔧 Configuration
@@ -113,7 +113,7 @@ npx wrangler pages deploy dist --project-name avanta-shortener
 
 1. **KV Namespace**: `avanta_shortener`
 2. **Analytics Engine**: `avanta_shortener` dataset
-3. **Pages Project**: `avanta-shortener`
+3. **Workers Project**: `avanta-shortener`
 4. **Custom Domain**: `avanta.design`
 
 ## 📈 Analytics
@@ -164,7 +164,7 @@ The URL shortener has been fully rebranded to match Avanta Design's visual ident
 - **Rebrand**: Changed from purple to orange theme
 - **Route Update**: Dashboard moved from `/dashboard` to `/admin`
 - **GitHub Actions**: Automatic deployment configured
-- **Production**: Live on Cloudflare Pages
+- **Production**: Live on Cloudflare Workers
 
 ## 📝 Notes
 
@@ -177,7 +177,7 @@ The URL shortener has been fully rebranded to match Avanta Design's visual ident
 
 For issues or questions about this URL shortener setup, refer to:
 - [Sink Documentation](https://github.com/denolehov/sink)
-- [Cloudflare Pages Docs](https://developers.cloudflare.com/pages/)
+- [Cloudflare Workers Docs](https://developers.cloudflare.com/workers/)
 - [Nuxt Documentation](https://nuxt.com/)
 
 ---
