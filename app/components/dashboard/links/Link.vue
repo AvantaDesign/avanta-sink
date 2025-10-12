@@ -70,125 +70,126 @@ function toggleSelection() {
           :to="`/admin/link?slug=${link.slug}`"
         >
           <div class="flex items-center justify-center space-x-3">
-        <Avatar>
-          <AvatarImage
-            :src="linkIcon"
-            alt="@radix-vue"
-            loading="lazy"
-          />
-          <AvatarFallback>
-            <img
-              src="/icon.png"
-              alt="Sink"
-              loading="lazy"
-            >
-          </AvatarFallback>
-        </Avatar>
+            <Avatar>
+              <AvatarImage
+                :src="linkIcon"
+                alt="@radix-vue"
+                loading="lazy"
+              />
+              <AvatarFallback>
+                <img
+                  src="/icon.png"
+                  alt="Sink"
+                  loading="lazy"
+                >
+              </AvatarFallback>
+            </Avatar>
 
-        <div class="flex-1 overflow-hidden">
-          <div class="flex items-center justify-between">
-            <div class="flex items-center flex-1 min-w-0">
-              <div class="font-bold leading-5 truncate text-md">
-                {{ link.comment || link.title || link.description }}
+            <div class="flex-1 overflow-hidden">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center flex-1 min-w-0">
+                  <div class="font-bold leading-5 truncate text-md">
+                    {{ link.comment || link.title || link.description }}
+                  </div>
+
+                  <CopyCheck
+                    v-if="copied"
+                    class="w-4 h-4 ml-1 shrink-0"
+                    @click.prevent
+                  />
+                  <Copy
+                    v-else
+                    class="w-4 h-4 ml-1 shrink-0"
+                    @click.prevent="copyLink"
+                  />
+                </div>
+
+                <div class="flex items-center gap-2 ml-2 shrink-0">
+                  <a
+                    :href="link.url"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    @click.stop
+                  >
+                    <LinkIcon class="w-5 h-5" />
+                  </a>
+
+                  <Popover>
+                    <PopoverTrigger>
+                      <QrCode
+                        class="w-5 h-5"
+                        @click.prevent
+                      />
+                    </PopoverTrigger>
+                    <PopoverContent>
+                      <QRCode
+                        :data="shortLink"
+                        :image="'/newicons/Isotipo Avanta Gradient_ICON_WEB.webp'"
+                      />
+                    </PopoverContent>
+                  </Popover>
+
+                  <Popover v-model:open="editPopoverOpen">
+                    <PopoverTrigger>
+                      <SquareChevronDown
+                        class="w-5 h-5"
+                        @click.prevent
+                      />
+                    </PopoverTrigger>
+                    <PopoverContent
+                      class="w-auto p-0"
+                      :hide-when-detached="false"
+                    >
+                      <DashboardLinksEditor
+                        :link="link"
+                        @update:link="updateLink"
+                      >
+                        <div
+                          class="cursor-pointer flex select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none hover:bg-accent hover:text-accent-foreground"
+                        >
+                          <SquarePen
+                            class="w-5 h-5 mr-2"
+                          />
+                          {{ $t('common.edit') }}
+                        </div>
+                      </DashboardLinksEditor>
+
+                      <Separator />
+
+                      <DashboardLinksDelete
+                        :link="link"
+                        @update:link="updateLink"
+                      >
+                        <div
+                          class="cursor-pointer flex select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none hover:bg-accent hover:text-accent-foreground"
+                        >
+                          <Eraser
+                            class="w-5 h-5 mr-2"
+                          /> {{ $t('common.delete') }}
+                        </div>
+                      </DashboardLinksDelete>
+                    </PopoverContent>
+                  </Popover>
+                </div>
               </div>
 
-              <CopyCheck
-                v-if="copied"
-                class="w-4 h-4 ml-1 shrink-0"
-                @click.prevent
-              />
-              <Copy
-                v-else
-                class="w-4 h-4 ml-1 shrink-0"
-                @click.prevent="copyLink"
-              />
-            </div>
-
-            <div class="flex items-center gap-2 ml-2 shrink-0">
-              <a
-                :href="link.url"
-                target="_blank"
-                rel="noopener noreferrer"
-                @click.stop
-              >
-                <LinkIcon class="w-5 h-5" />
-              </a>
-
-              <Popover>
-                <PopoverTrigger>
-                  <QrCode
-                    class="w-5 h-5"
-                    @click.prevent
-                  />
-                </PopoverTrigger>
-                <PopoverContent>
-                  <QRCode
-                    :data="shortLink"
-                    :image="'/newicons/Isotipo Avanta Gradient_ICON_WEB.webp'"
-                  />
-                </PopoverContent>
-              </Popover>
-
-              <Popover v-model:open="editPopoverOpen">
-                <PopoverTrigger>
-                  <SquareChevronDown
-                    class="w-5 h-5"
-                    @click.prevent
-                  />
-                </PopoverTrigger>
-                <PopoverContent
-                  class="w-auto p-0"
-                  :hide-when-detached="false"
-                >
-                  <DashboardLinksEditor
-                    :link="link"
-                    @update:link="updateLink"
-                  >
-                    <div
-                      class="cursor-pointer flex select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none hover:bg-accent hover:text-accent-foreground"
-                    >
-                      <SquarePen
-                        class="w-5 h-5 mr-2"
-                      />
-                      {{ $t('common.edit') }}
-                    </div>
-                  </DashboardLinksEditor>
-
-                  <Separator />
-
-                  <DashboardLinksDelete
-                    :link="link"
-                    @update:link="updateLink"
-                  >
-                    <div
-                      class="cursor-pointer flex select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none hover:bg-accent hover:text-accent-foreground"
-                    >
-                      <Eraser
-                        class="w-5 h-5 mr-2"
-                      /> {{ $t('common.delete') }}
-                    </div>
-                  </DashboardLinksDelete>
-                </PopoverContent>
-              </Popover>
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger as-child>
+                    <p class="text-sm truncate text-muted-foreground">
+                      {{ host }}/{{ link.slug }}
+                    </p>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p class="max-w-[90svw] break-all">
+                      {{ host }}/{{ link.slug }}
+                    </p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
             </div>
           </div>
-
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger as-child>
-                <p class="text-sm truncate text-muted-foreground">
-                  {{ host }}/{{ link.slug }}
-                </p>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p class="max-w-[90svw] break-all">
-                  {{ host }}/{{ link.slug }}
-                </p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-      </div>
-      <div class="flex w-full h-5 space-x-2 text-sm">
+          <div class="flex w-full h-5 space-x-2 text-sm">
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger as-child>
