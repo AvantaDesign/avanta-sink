@@ -31,7 +31,6 @@ onMounted(() => {
 
 <template>
   <main class="space-y-6">
-    <DashboardBreadcrumb title="Link" />
     <DashboardLinksLink
       v-if="link.id"
       :link="link"
