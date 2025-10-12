@@ -20,7 +20,7 @@ const options = {
   margin: 10,
   qrOptions: { typeNumber: '0', mode: 'Byte', errorCorrectionLevel: 'Q' },
   imageOptions: { hideBackgroundDots: true, imageSize: 0.4, margin: 2 },
-  dotsOptions: { type: 'dots', color: '#000000', gradient: null },
+  dotsOptions: { type: 'square', color: '#000000', gradient: null },
   backgroundOptions: { color: '#ffffff', gradient: null },
   image: props.image,
   dotsOptionsHelper: {
@@ -33,7 +33,7 @@ const options = {
       rotation: '0',
     },
   },
-  cornersSquareOptions: { type: 'extra-rounded', color: '#000000' },
+  cornersSquareOptions: { type: 'square', color: '#000000' },
   cornersSquareOptionsHelper: {
     colorType: { single: true, gradient: false },
     gradient: {
@@ -44,7 +44,7 @@ const options = {
       rotation: '0',
     },
   },
-  cornersDotOptions: { type: 'dot', color: '#000000' },
+  cornersDotOptions: { type: 'square', color: '#000000' },
   cornersDotOptionsHelper: {
     colorType: { single: true, gradient: false },
     gradient: {

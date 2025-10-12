@@ -15,14 +15,13 @@ const { title } = useAppConfig()
           <a
             href="/admin/links"
             :title="title"
-            class="flex items-center py-4 space-x-2 text-xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent md:py-0 hover:opacity-80 transition-opacity"
+            class="flex items-center py-4 md:py-0 hover:opacity-80 transition-opacity"
           >
             <img
               src="/newicons/Imagotipo Avanta White_NO BORDER.png"
               alt="Avanta Design"
-              class="w-10 h-10"
+              class="h-10 w-auto"
             />
-            <span class="mx-2">Avanta</span>
           </a>
         </div>
 
