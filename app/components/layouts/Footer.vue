@@ -13,10 +13,11 @@ const { title, email, github } = useAppConfig()
         class="text-xl font-bold leading-none select-none bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent logo flex items-center gap-2"
         :title="title"
       >
-        <span class="flex items-center justify-center w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-secondary p-1.5">
-          <Link class="w-5 h-5 text-white" />
-        </span>
-        Avanta
+        <img
+          src="/newicons/Imagotipo Avanta White_NO BORDER.png"
+          alt="Avanta Design"
+          class="w-8 h-8"
+        />
       </a>
       <a
         class="mt-4 text-sm text-muted-foreground sm:ml-4 sm:pl-4 sm:border-l sm:mt-0 hover:text-foreground transition-colors"

@@ -67,7 +67,7 @@ function toggleSelection() {
         />
         <NuxtLink
           class="flex flex-col flex-1 space-y-3"
-          :to="`/dashboard/link?slug=${link.slug}`"
+          :to="`/admin/link?slug=${link.slug}`"
         >
           <div class="flex items-center justify-center space-x-3">
         <Avatar>
@@ -86,21 +86,91 @@ function toggleSelection() {
         </Avatar>
 
         <div class="flex-1 overflow-hidden">
-          <div class="flex items-center">
-            <div class="font-bold leading-5 truncate text-md">
-              {{ link.comment || link.title || link.description }}
+          <div class="flex items-center justify-between">
+            <div class="flex items-center flex-1 min-w-0">
+              <div class="font-bold leading-5 truncate text-md">
+                {{ link.comment || link.title || link.description }}
+              </div>
+
+              <CopyCheck
+                v-if="copied"
+                class="w-4 h-4 ml-1 shrink-0"
+                @click.prevent
+              />
+              <Copy
+                v-else
+                class="w-4 h-4 ml-1 shrink-0"
+                @click.prevent="copyLink"
+              />
             </div>
 
-            <CopyCheck
-              v-if="copied"
-              class="w-4 h-4 ml-1 shrink-0"
-              @click.prevent
-            />
-            <Copy
-              v-else
-              class="w-4 h-4 ml-1 shrink-0"
-              @click.prevent="copyLink"
-            />
+            <div class="flex items-center gap-2 ml-2 shrink-0">
+              <a
+                :href="link.url"
+                target="_blank"
+                rel="noopener noreferrer"
+                @click.stop
+              >
+                <LinkIcon class="w-5 h-5" />
+              </a>
+
+              <Popover>
+                <PopoverTrigger>
+                  <QrCode
+                    class="w-5 h-5"
+                    @click.prevent
+                  />
+                </PopoverTrigger>
+                <PopoverContent>
+                  <QRCode
+                    :data="shortLink"
+                    :image="'/newicons/Isotipo Avanta Gradient_ICON_WEB.webp'"
+                  />
+                </PopoverContent>
+              </Popover>
+
+              <Popover v-model:open="editPopoverOpen">
+                <PopoverTrigger>
+                  <SquareChevronDown
+                    class="w-5 h-5"
+                    @click.prevent
+                  />
+                </PopoverTrigger>
+                <PopoverContent
+                  class="w-auto p-0"
+                  :hide-when-detached="false"
+                >
+                  <DashboardLinksEditor
+                    :link="link"
+                    @update:link="updateLink"
+                  >
+                    <div
+                      class="cursor-pointer flex select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none hover:bg-accent hover:text-accent-foreground"
+                    >
+                      <SquarePen
+                        class="w-5 h-5 mr-2"
+                      />
+                      {{ $t('common.edit') }}
+                    </div>
+                  </DashboardLinksEditor>
+
+                  <Separator />
+
+                  <DashboardLinksDelete
+                    :link="link"
+                    @update:link="updateLink"
+                  >
+                    <div
+                      class="cursor-pointer flex select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none hover:bg-accent hover:text-accent-foreground"
+                    >
+                      <Eraser
+                        class="w-5 h-5 mr-2"
+                      /> {{ $t('common.delete') }}
+                    </div>
+                  </DashboardLinksDelete>
+                </PopoverContent>
+              </Popover>
+            </div>
           </div>
 
           <TooltipProvider>
@@ -117,73 +187,6 @@ function toggleSelection() {
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
-        </div>
-
-        <a
-          :href="link.url"
-          target="_blank"
-          rel="noopener noreferrer"
-          @click.stop
-        >
-          <LinkIcon class="w-5 h-5" />
-        </a>
-
-        <Popover>
-          <PopoverTrigger>
-            <QrCode
-              class="w-5 h-5"
-              @click.prevent
-            />
-          </PopoverTrigger>
-          <PopoverContent>
-            <QRCode
-              :data="shortLink"
-              :image="'/newicons/Isotipo Avanta Gradient_ICON_WEB.webp'"
-            />
-          </PopoverContent>
-        </Popover>
-
-        <Popover v-model:open="editPopoverOpen">
-          <PopoverTrigger>
-            <SquareChevronDown
-              class="w-5 h-5"
-              @click.prevent
-            />
-          </PopoverTrigger>
-          <PopoverContent
-            class="w-auto p-0"
-            :hide-when-detached="false"
-          >
-            <DashboardLinksEditor
-              :link="link"
-              @update:link="updateLink"
-            >
-              <div
-                class="cursor-pointer flex select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none hover:bg-accent hover:text-accent-foreground"
-              >
-                <SquarePen
-                  class="w-5 h-5 mr-2"
-                />
-                {{ $t('common.edit') }}
-              </div>
-            </DashboardLinksEditor>
-
-            <Separator />
-
-            <DashboardLinksDelete
-              :link="link"
-              @update:link="updateLink"
-            >
-              <div
-                class="cursor-pointer flex select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none hover:bg-accent hover:text-accent-foreground"
-              >
-                <Eraser
-                  class="w-5 h-5 mr-2"
-                /> {{ $t('common.delete') }}
-              </div>
-            </DashboardLinksDelete>
-          </PopoverContent>
-        </Popover>
       </div>
       <div class="flex w-full h-5 space-x-2 text-sm">
         <TooltipProvider>
