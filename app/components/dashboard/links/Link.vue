@@ -10,8 +10,12 @@ const props = defineProps({
     type: Object,
     required: true,
   },
+  selectedLinks: {
+    type: Array,
+    default: () => [],
+  },
 })
-const emit = defineEmits(['update:link'])
+const emit = defineEmits(['update:link', 'update:selectedLinks'])
 
 const { t } = useI18n()
 const editPopoverOpen = ref(false)
@@ -37,15 +41,35 @@ function copyLink() {
   copy(shortLink.value)
   toast(t('links.copy_success'))
 }
+
+const isSelected = computed(() => props.selectedLinks.includes(props.link.slug))
+
+function toggleSelection() {
+  const newSelectedLinks = [...props.selectedLinks]
+  if (isSelected.value) {
+    const index = newSelectedLinks.indexOf(props.link.slug)
+    newSelectedLinks.splice(index, 1)
+  } else {
+    newSelectedLinks.push(props.link.slug)
+  }
+  emit('update:selectedLinks', newSelectedLinks)
+}
 </script>
 
 <template>
   <Card>
-    <NuxtLink
-      class="flex flex-col p-4 space-y-3"
-      :to="`/dashboard/link?slug=${link.slug}`"
-    >
-      <div class="flex items-center justify-center space-x-3">
+    <div class="flex flex-col p-4 space-y-3">
+      <div class="flex items-center justify-between">
+        <Checkbox 
+          :checked="isSelected" 
+          @update:checked="toggleSelection"
+          class="mr-2"
+        />
+        <NuxtLink
+          class="flex flex-col flex-1 space-y-3"
+          :to="`/dashboard/link?slug=${link.slug}`"
+        >
+          <div class="flex items-center justify-center space-x-3">
         <Avatar>
           <AvatarImage
             :src="linkIcon"
@@ -189,6 +213,8 @@ function copyLink() {
         <Separator orientation="vertical" />
         <span class="truncate">{{ link.url }}</span>
       </div>
-    </NuxtLink>
+        </NuxtLink>
+      </div>
+    </div>
   </Card>
 </template>

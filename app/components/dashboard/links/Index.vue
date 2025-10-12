@@ -1,6 +1,7 @@
 <script setup>
 import { useInfiniteScroll } from '@vueuse/core'
-import { Loader } from 'lucide-vue-next'
+import { Loader, Trash2 } from 'lucide-vue-next'
+import { toast } from 'vue-sonner'
 
 const links = ref([])
 const limit = 24
@@ -9,6 +10,7 @@ let listComplete = false
 let listError = false
 
 const sortBy = ref('az')
+const selectedLinks = ref([])
 
 const displayedLinks = computed(() => {
   const sorted = [...links.value]
@@ -65,11 +67,40 @@ function updateLinkList(link, type) {
   else if (type === 'delete') {
     const index = links.value.findIndex(l => l.id === link.id)
     links.value.splice(index, 1)
+    // Remove from selected links if it was selected
+    const selectedIndex = selectedLinks.value.indexOf(link.slug)
+    if (selectedIndex > -1) {
+      selectedLinks.value.splice(selectedIndex, 1)
+    }
   }
   else {
     links.value.unshift(link)
     sortBy.value = 'newest'
   }
+}
+
+async function bulkDelete() {
+  if (selectedLinks.value.length === 0) return
+  
+  try {
+    await useAPI('/api/link/bulk-delete', {
+      method: 'POST',
+      body: { slugs: selectedLinks.value },
+    })
+    
+    // Remove deleted links from the local list
+    links.value = links.value.filter(link => !selectedLinks.value.includes(link.slug))
+    selectedLinks.value = []
+    
+    toast('Selected links deleted successfully!')
+  } catch (error) {
+    console.error('Failed to delete links:', error)
+    toast('Failed to delete selected links')
+  }
+}
+
+function updateSelectedLinks(newSelectedLinks) {
+  selectedLinks.value = newSelectedLinks
 }
 </script>
 
@@ -80,6 +111,16 @@ function updateLinkList(link, type) {
         <div class="flex items-center gap-2">
           <DashboardLinksEditor @update:link="updateLinkList" />
           <DashboardLinksSort v-model:sort-by="sortBy" />
+          <Button 
+            v-if="selectedLinks.length > 0"
+            variant="destructive" 
+            size="sm"
+            @click="bulkDelete"
+            class="flex items-center gap-2"
+          >
+            <Trash2 class="w-4 h-4" />
+            Delete Selected ({{ selectedLinks.length }})
+          </Button>
         </div>
       </DashboardNav>
       <LazyDashboardLinksSearch />
@@ -89,7 +130,9 @@ function updateLinkList(link, type) {
         v-for="link in displayedLinks"
         :key="link.id"
         :link="link"
+        :selected-links="selectedLinks"
         @update:link="updateLinkList"
+        @update:selected-links="updateSelectedLinks"
       />
     </section>
     <div
