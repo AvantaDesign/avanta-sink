@@ -14,6 +14,10 @@ const props = defineProps({
     type: Array,
     default: () => [],
   },
+  showFullUrl: {
+    type: Boolean,
+    default: false,
+  },
 })
 const emit = defineEmits(['update:link', 'update:selectedLinks'])
 
@@ -229,7 +233,7 @@ function toggleSelection() {
           </TooltipProvider>
         </template>
         <Separator orientation="vertical" />
-        <TooltipProvider>
+        <TooltipProvider v-if="!showFullUrl">
           <Tooltip>
             <TooltipTrigger as-child>
               <span class="truncate flex-1 min-w-0 max-w-0 overflow-hidden whitespace-nowrap text-ellipsis block">{{ link.url }}</span>
@@ -239,6 +243,7 @@ function toggleSelection() {
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
+        <span v-else class="flex-1 break-all text-xs text-muted-foreground">{{ link.url }}</span>
       </div>
         </NuxtLink>
       </div>
