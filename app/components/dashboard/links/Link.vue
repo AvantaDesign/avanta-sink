@@ -28,7 +28,15 @@ function getLinkHost(url) {
 }
 
 const shortLink = computed(() => `${origin}/${props.link.slug}`)
-const linkIcon = computed(() => `https://unavatar.io/${getLinkHost(props.link.url)}?fallback=https://sink.cool/icon.png`)
+const linkIcon = computed(() => {
+  try {
+    const host = getLinkHost(props.link.url)
+    return `https://unavatar.io/${host}?fallback=${window.location.origin}/icon.png`
+  } catch (error) {
+    console.warn('Failed to generate link icon URL:', error)
+    return '/icon.png'
+  }
+})
 
 const { copy, copied } = useClipboard({ source: shortLink.value, copiedDuring: 400 })
 
@@ -40,6 +48,11 @@ function updateLink(link, type) {
 function copyLink() {
   copy(shortLink.value)
   toast(t('links.copy_success'))
+}
+
+function handleImageError(event) {
+  console.warn('Avatar image failed to load:', event.target.src)
+  // The AvatarFallback will automatically show the fallback image
 }
 
 const isSelected = computed(() => props.selectedLinks.includes(props.link.slug))
@@ -73,13 +86,14 @@ function toggleSelection() {
             <Avatar>
               <AvatarImage
                 :src="linkIcon"
-                alt="@radix-vue"
+                :alt="getLinkHost(link.url)"
                 loading="lazy"
+                @error="handleImageError"
               />
               <AvatarFallback>
                 <img
                   src="/icon.png"
-                  alt="Sink"
+                  alt="Default"
                   loading="lazy"
                 >
               </AvatarFallback>
@@ -215,7 +229,7 @@ function toggleSelection() {
           </TooltipProvider>
         </template>
         <Separator orientation="vertical" />
-        <span class="truncate">{{ link.url }}</span>
+        <span class="truncate flex-1 min-w-0">{{ link.url }}</span>
       </div>
         </NuxtLink>
       </div>
