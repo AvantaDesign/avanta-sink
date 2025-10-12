@@ -203,7 +203,7 @@ function toggleSelection() {
               </TooltipProvider>
             </div>
           </div>
-          <div class="flex w-full h-5 space-x-2 text-sm">
+          <div class="flex w-full h-5 space-x-2 text-sm overflow-hidden">
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger as-child>
@@ -229,7 +229,16 @@ function toggleSelection() {
           </TooltipProvider>
         </template>
         <Separator orientation="vertical" />
-        <span class="truncate flex-1 min-w-0">{{ link.url }}</span>
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger as-child>
+              <span class="truncate flex-1 min-w-0 max-w-0 overflow-hidden whitespace-nowrap text-ellipsis block">{{ link.url }}</span>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p class="max-w-[90svw] break-all">{{ link.url }}</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
       </div>
         </NuxtLink>
       </div>
