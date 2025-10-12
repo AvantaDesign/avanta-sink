@@ -5,20 +5,20 @@ const route = useRoute()
 <template>
   <section class="flex justify-between">
     <Tabs
-      v-if="route.path !== '/dashboard/link'"
+      v-if="route.path !== '/admin/link'"
       :default-value="route.path"
       @update:model-value="navigateTo"
     >
       <TabsList>
         <TabsTrigger
-          value="/dashboard/links"
+          value="/admin/links"
         >
           {{ $t('nav.links') }}
         </TabsTrigger>
-        <TabsTrigger value="/dashboard/analysis">
+        <TabsTrigger value="/admin/analysis">
           {{ $t('nav.analysis') }}
         </TabsTrigger>
-        <TabsTrigger value="/dashboard/realtime">
+        <TabsTrigger value="/admin/realtime">
           {{ $t('nav.realtime') }}
         </TabsTrigger>
       </TabsList>
