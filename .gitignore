@@ -98,3 +98,14 @@ wrangler.toml
 
 # Migration files (keep CSV for reference)
 migrate_links.py
+
+# Additional Nuxt-specific ignores from Sink
+.data
+.nitro
+.cache
+./logs
+.fleet
+site
+cache
+.dev.*
+.kiro/steering/locale.md
