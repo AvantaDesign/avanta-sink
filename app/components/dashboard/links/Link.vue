@@ -64,7 +64,7 @@ function copyLink() {
         <div class="flex-1 overflow-hidden">
           <div class="flex items-center">
             <div class="font-bold leading-5 truncate text-md">
-              {{ host }}/{{ link.slug }}
+              {{ link.comment || link.title || link.description }}
             </div>
 
             <CopyCheck
@@ -82,13 +82,13 @@ function copyLink() {
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger as-child>
-                <p class="text-sm truncate">
-                  {{ link.comment || link.title || link.description }}
+                <p class="text-sm truncate text-muted-foreground">
+                  {{ host }}/{{ link.slug }}
                 </p>
               </TooltipTrigger>
               <TooltipContent>
                 <p class="max-w-[90svw] break-all">
-                  {{ link.comment || link.title || link.description }}
+                  {{ host }}/{{ link.slug }}
                 </p>
               </TooltipContent>
             </Tooltip>
@@ -114,7 +114,7 @@ function copyLink() {
           <PopoverContent>
             <QRCode
               :data="shortLink"
-              :image="linkIcon"
+              :image="'/newicons/Isotipo Avanta Gradient_ICON_WEB.webp'"
             />
           </PopoverContent>
         </Popover>

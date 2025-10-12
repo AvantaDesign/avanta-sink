@@ -7,7 +7,7 @@ export default defineAppConfig({
   mastodon: '',
   blog: 'https://avantadesign.com',
   description: 'Internal URL shortener and link management system for Avanta Design.',
-  image: 'https://avanta.design/banner.png',
+  image: 'https://avanta.design/newicons/Isotipo Avanta PP_2.jpg',
   previewTTL: 300, // 5 minutes
   slugRegex: /^[a-z0-9]+(?:-[a-z0-9]+)*$/i,
   reserveSlug: [

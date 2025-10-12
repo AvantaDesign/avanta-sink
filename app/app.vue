@@ -29,12 +29,12 @@ useHead({
   link: [
     {
       rel: 'icon',
-      type: 'image/png',
-      href: '/icon-192.png',
+      type: 'image/webp',
+      href: '/newicons/Isotipo Avanta Gradient_ICON_WEB.webp',
     },
     {
       rel: 'apple-touch-icon',
-      href: '/apple-touch-icon.png',
+      href: '/newicons/Isotipo Avanta Gradient_ICON_WEB.webp',
     },
   ],
 })

@@ -17,11 +17,11 @@ const { title } = useAppConfig()
             :title="title"
             class="flex items-center py-4 space-x-2 text-xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent md:py-0 hover:opacity-80 transition-opacity"
           >
-            <span
-              class="flex items-center justify-center w-10 h-10 rounded-lg bg-gradient-to-br from-primary to-secondary p-2"
-            >
-              <Link class="w-6 h-6 text-white" />
-            </span>
+            <img
+              src="/newicons/Imagotipo Avanta White_NO BORDER.png"
+              alt="Avanta Design"
+              class="w-10 h-10"
+            />
             <span class="mx-2">Avanta</span>
           </a>
         </div>
