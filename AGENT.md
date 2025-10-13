@@ -99,8 +99,30 @@ Key environment variables to be aware of:
 - Never commit secrets or API keys
 - Use environment variables for sensitive configuration
 - Validate all user input with Zod schemas
-- Implement rate limiting on API endpoints
+- Rate limiting is implemented (60 requests/minute per client)
+- Security headers are automatically applied to all responses
 - Follow OWASP guidelines for web security
+- NUXT_SITE_TOKEN must be at least 16 characters and kept secret
+- Run `pnpm audit` regularly to check for vulnerabilities
+- Use `gitleaks` to scan for secrets before committing
+
+### Security Middleware
+
+The application includes the following security middleware (in `server/middleware/`):
+
+1. **0.security-headers.ts** - Adds security HTTP headers (CSP, X-Frame-Options, etc.)
+2. **0.rate-limit.ts** - Rate limiting (60 req/min per client)
+3. **2.auth.ts** - Bearer token authentication for API endpoints
+
+### Security Checklist for Development
+
+- [ ] Never commit `.env` or `.dev.vars` files
+- [ ] Use strong tokens (16+ characters) for NUXT_SITE_TOKEN
+- [ ] Review console.log statements before deploying
+- [ ] Run security audit workflow before major releases
+- [ ] Keep dependencies updated via Dependabot
+- [ ] Test rate limiting in development
+- [ ] Verify CORS is disabled in production (NUXT_API_CORS=false)
 
 ## Performance Considerations
 

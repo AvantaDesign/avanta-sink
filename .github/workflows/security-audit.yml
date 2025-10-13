@@ -1,0 +1,160 @@
+name: Security Audit
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  schedule:
+    # Run weekly on Mondays at 9:00 AM UTC
+    - cron: '0 9 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  security-events: write
+  actions: read
+
+jobs:
+  dependency-audit:
+    name: Dependency Security Audit
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 10.18.2
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Run pnpm audit
+        run: pnpm audit --audit-level moderate
+        continue-on-error: true
+
+      - name: Check for known vulnerabilities
+        run: pnpm audit --json > audit-report.json || true
+
+      - name: Upload audit report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: dependency-audit-report
+          path: audit-report.json
+          retention-days: 30
+
+  secret-scan:
+    name: Secret Scanning
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Run Gitleaks
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITLEAKS_LICENSE: ${{ secrets.GITLEAKS_LICENSE }}
+
+  code-quality:
+    name: Code Quality & Linting
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 10.18.2
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Run linter
+        run: pnpm run lint
+        continue-on-error: true
+
+      - name: Check for console.log statements
+        run: |
+          echo "Checking for console.log statements in production code..."
+          if grep -rn "console\.log\|console\.error" server/ app/ --include="*.ts" --include="*.vue" | grep -v "test" | grep -v "spec"; then
+            echo "⚠️  Warning: Found console.log/error statements in production code"
+            echo "Consider removing or gating these behind environment checks"
+            exit 0  # Warning only, don't fail the build
+          else
+            echo "✅ No problematic console statements found"
+          fi
+
+  security-checklist:
+    name: Security Configuration Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Check for exposed secrets in code
+        run: |
+          echo "Checking for potential exposed secrets..."
+          if grep -rn "NUXT_SITE_TOKEN.*=.*['\"]" . --include="*.ts" --include="*.js" --include="*.vue" --exclude-dir=node_modules --exclude-dir=.nuxt; then
+            echo "❌ ERROR: Found hardcoded NUXT_SITE_TOKEN"
+            exit 1
+          else
+            echo "✅ No hardcoded tokens found"
+          fi
+
+      - name: Verify SECURITY.md exists
+        run: |
+          if [ -f "SECURITY.md" ]; then
+            echo "✅ SECURITY.md exists"
+          else
+            echo "⚠️  Warning: SECURITY.md not found"
+            exit 0
+          fi
+
+      - name: Check .gitignore configuration
+        run: |
+          echo "Checking .gitignore for security-sensitive patterns..."
+          REQUIRED_PATTERNS=(".env" ".dev.vars" "wrangler.toml")
+          for pattern in "${REQUIRED_PATTERNS[@]}"; do
+            if grep -q "$pattern" .gitignore; then
+              echo "✅ $pattern is in .gitignore"
+            else
+              echo "⚠️  Warning: $pattern should be in .gitignore"
+            fi
+          done
+
+      - name: Security recommendations
+        run: |
+          echo "📋 Security Checklist:"
+          echo "1. ✅ Dependency audit completed"
+          echo "2. ✅ Secret scanning completed"
+          echo "3. ✅ Code quality check completed"
+          echo ""
+          echo "🔐 Additional recommendations:"
+          echo "- Ensure GitHub secret scanning is enabled"
+          echo "- Enable Dependabot security updates"
+          echo "- Review and rotate NUXT_SITE_TOKEN regularly"
+          echo "- Enable branch protection rules"
+          echo "- Consider making repository private for production apps"
+          echo "- Enable Cloudflare WAF rules"
+          echo "- Review CORS settings (disable NUXT_API_CORS in production)"

@@ -80,20 +80,22 @@ function updateLinkList(link, type) {
 }
 
 async function bulkDelete() {
-  if (selectedLinks.value.length === 0) return
-  
+  if (selectedLinks.value.length === 0)
+    return
+
   try {
     await useAPI('/api/link/bulk-delete', {
       method: 'POST',
       body: { slugs: selectedLinks.value },
     })
-    
+
     // Remove deleted links from the local list
     links.value = links.value.filter(link => !selectedLinks.value.includes(link.slug))
     selectedLinks.value = []
-    
+
     toast('Selected links deleted successfully!')
-  } catch (error) {
+  }
+  catch (error) {
     console.error('Failed to delete links:', error)
     toast('Failed to delete selected links')
   }
@@ -111,12 +113,12 @@ function updateSelectedLinks(newSelectedLinks) {
         <div class="flex items-center gap-2">
           <DashboardLinksEditor @update:link="updateLinkList" />
           <DashboardLinksSort v-model:sort-by="sortBy" />
-          <Button 
+          <Button
             v-if="selectedLinks.length > 0"
-            variant="destructive" 
+            variant="destructive"
             size="sm"
-            @click="bulkDelete"
             class="flex items-center gap-2"
+            @click="bulkDelete"
           >
             <Trash2 class="w-4 h-4" />
             Delete Selected ({{ selectedLinks.length }})

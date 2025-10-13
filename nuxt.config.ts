@@ -20,9 +20,9 @@ export default defineNuxtConfig({
   },
 
   runtimeConfig: {
-    siteToken: process.env.NUXT_SITE_TOKEN || '1S#dDta2Cr%O7H',
+    siteToken: process.env.NUXT_SITE_TOKEN || '',
     redirectStatusCode: process.env.NUXT_REDIRECT_STATUS_CODE || '301',
-    linkCacheTtl: parseInt(process.env.NUXT_LINK_CACHE_TTL || '60'),
+    linkCacheTtl: Number.parseInt(process.env.NUXT_LINK_CACHE_TTL || '60'),
     redirectWithQuery: process.env.NUXT_REDIRECT_WITH_QUERY === 'true',
     homeURL: process.env.NUXT_HOME_URL || '',
     cfAccountId: process.env.NUXT_CF_ACCOUNT_ID || '',

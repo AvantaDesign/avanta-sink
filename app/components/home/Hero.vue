@@ -1,5 +1,5 @@
 <script setup>
-import { Link, BarChart3 } from 'lucide-vue-next'
+import { BarChart3, Link } from 'lucide-vue-next'
 
 const { title, description } = useAppConfig()
 </script>
@@ -55,15 +55,21 @@ const { title, description } = useAppConfig()
                   <Link class="w-6 h-6 text-primary" />
                 </div>
                 <div>
-                  <h3 class="font-semibold">Quick Links</h3>
-                  <p class="text-sm text-muted-foreground">84 active links</p>
+                  <h3 class="font-semibold">
+                    Quick Links
+                  </h3>
+                  <p class="text-sm text-muted-foreground">
+                    84 active links
+                  </p>
                 </div>
               </div>
               <div class="space-y-2">
                 <div class="h-2 bg-primary/20 rounded-full overflow-hidden">
                   <div class="h-full bg-primary rounded-full" style="width: 75%" />
                 </div>
-                <p class="text-xs text-muted-foreground">Link usage this month</p>
+                <p class="text-xs text-muted-foreground">
+                  Link usage this month
+                </p>
               </div>
             </div>
             <div class="bg-card border rounded-lg p-6 shadow-lg backdrop-blur-sm">
@@ -72,8 +78,12 @@ const { title, description } = useAppConfig()
                   <BarChart3 class="w-6 h-6 text-secondary" />
                 </div>
                 <div>
-                  <h3 class="font-semibold">Analytics</h3>
-                  <p class="text-sm text-muted-foreground">Real-time tracking</p>
+                  <h3 class="font-semibold">
+                    Analytics
+                  </h3>
+                  <p class="text-sm text-muted-foreground">
+                    Real-time tracking
+                  </p>
                 </div>
               </div>
             </div>
