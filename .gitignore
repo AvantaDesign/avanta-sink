@@ -109,3 +109,5 @@ site
 cache
 .dev.*
 .kiro/steering/locale.md
+# Development variables (contains secrets)
+.dev.vars

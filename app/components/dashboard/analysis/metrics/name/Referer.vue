@@ -6,7 +6,7 @@ defineProps({
 
 <template>
   <a
-    :href="`http://${name}`"
+    :href="`https://${name}`"
     target="_blank"
     rel="noopener noreferrer"
     class="block w-full truncate"

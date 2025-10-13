@@ -4,7 +4,7 @@ A self-hosted URL shortener powered by [Sink](https://github.com/denolehov/sink)
 
 ## 🚀 Features
 
-- **Custom Domain**: `avanta.design` 
+- **Custom Domain**: `avanta.design`
 - **84 Migrated Links**: Successfully migrated from T2M URL shortener
 - **Admin Dashboard**: Full management interface
 - **Analytics**: Click tracking and performance metrics
@@ -41,9 +41,10 @@ avanta-sink/
 
 ## 🔐 Authentication
 
-- **Token**: `1S#dDta2Cr%O7H`
+- **Token**: Set via `NUXT_SITE_TOKEN` environment variable (required)
 - **Access**: Admin dashboard at `/admin/login`
 - **Note**: Username field is required for LastPass compatibility but any value works
+- **Security**: Never commit the actual token to the repository. Use environment variables or GitHub Secrets.
 
 ## 📊 Migration Summary
 
@@ -83,7 +84,7 @@ Configure these in **Settings → Secrets and variables → Actions**:
 ```
 CLOUDFLARE_API_TOKEN       # Cloudflare API token with Workers permissions
 CLOUDFLARE_ACCOUNT_ID      # Your Cloudflare account ID
-NUXT_SITE_TOKEN           # Site authentication token (1S#dDta2Cr%O7H)
+NUXT_SITE_TOKEN           # Site authentication token (secure, random string - DO NOT commit)
 NUXT_CF_ACCOUNT_ID        # Cloudflare account ID
 NUXT_CF_API_TOKEN         # Cloudflare API token
 NUXT_DATASET              # Analytics dataset name (avanta_shortener)
@@ -130,7 +131,7 @@ npx wrangler deploy
 ```bash
 # Via API
 curl -X POST https://avanta.design/api/link/create \
-  -H "Authorization: Bearer 1S#dDta2Cr%O7H" \
+  -H "Authorization: Bearer YOUR_SITE_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{"url": "https://example.com", "slug": "example"}'
 ```
@@ -176,11 +177,12 @@ The URL shortener has been fully rebranded to match Avanta Design's visual ident
 ## 🤝 Support
 
 For issues or questions about this URL shortener setup, refer to:
+
 - [Sink Documentation](https://github.com/denolehov/sink)
 - [Cloudflare Workers Docs](https://developers.cloudflare.com/workers/)
 - [Nuxt Documentation](https://nuxt.com/)
 
 ---
 
-**Last Updated**: October 11, 2025  
+**Last Updated**: October 11, 2025
 **Status**: ✅ Production Ready

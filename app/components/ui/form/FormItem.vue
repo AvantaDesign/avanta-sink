@@ -4,8 +4,8 @@ import { FORM_ITEM_INJECTION_KEY } from '~/composables'
 </script>
 
 <script lang="ts" setup>
-import { provide } from 'vue'
 import { useId } from 'radix-vue'
+import { provide } from 'vue'
 import { cn } from '@/utils'
 
 const props = defineProps<{
