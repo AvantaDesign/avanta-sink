@@ -174,7 +174,21 @@
       "oldest": "Les plus anciens",
       "az": "Slug A-Z",
       "za": "Slug Z-A",
+      "most_clicks": "Plus de clics",
+      "least_clicks": "Moins de clics",
       "tip": "Essai : uniquement pour les liens chargés"
+    },
+    "tags": {
+      "label": "Étiquettes",
+      "placeholder": "Ajouter des étiquettes...",
+      "add": "Ajouter une étiquette",
+      "remove": "Supprimer",
+      "filter_placeholder": "Filtrer par étiquettes...",
+      "all": "Toutes les étiquettes",
+      "no_tags": "Aucune étiquette"
+    },
+    "filter": {
+      "all_dates": "Toutes les dates"
     }
   }
 }

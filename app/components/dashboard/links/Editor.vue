@@ -35,6 +35,7 @@ const EditLinkSchema = LinkSchema.pick({
     title: true,
     description: true,
     image: true,
+    clicks: true,
   }).extend({
     expiration: z.coerce.date().optional(),
   }).optional(),
@@ -116,6 +117,13 @@ const fieldConfig = {
         min: 1,
       },
     },
+    tags: {
+      label: 'Tags',
+      description: 'Add tags to categorize this link (comma-separated)',
+      inputProps: {
+        placeholder: 'e.g., marketing, campaign, social',
+      },
+    },
   },
 }
 
@@ -145,6 +153,7 @@ const form = useForm({
       og_description: link.value.og_description,
       og_image: link.value.og_image,
       expirationClicks: link.value.expirationClicks,
+      tags: Array.isArray(link.value.tags) ? link.value.tags.join(', ') : link.value.tags,
     },
   },
   validateOnMount: isEdit,
@@ -183,11 +192,23 @@ onMounted(() => {
 
 async function onSubmit(formData) {
   try {
+    // Process tags: convert comma-separated string to array
+    let tags = []
+    if (formData.optional?.tags) {
+      if (typeof formData.optional.tags === 'string') {
+        tags = formData.optional.tags.split(',').map(tag => tag.trim()).filter(Boolean)
+      }
+      else if (Array.isArray(formData.optional.tags)) {
+        tags = formData.optional.tags
+      }
+    }
+
     const link = {
       url: formData.url,
       slug: formData.slug,
       ...(formData.optional || []),
       expiration: formData.optional?.expiration ? date2unix(formData.optional?.expiration, 'end') : undefined,
+      tags,
     }
     const { link: newLink } = await useAPI(isEdit ? '/api/link/edit' : '/api/link/create', {
       method: isEdit ? 'PUT' : 'POST',

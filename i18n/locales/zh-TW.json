@@ -174,7 +174,21 @@
       "oldest": "最舊",
       "az": "短連結(A-Z)",
       "za": "短連結(Z-A)",
+      "most_clicks": "點擊最多",
+      "least_clicks": "點擊最少",
       "tip": "體驗功能: 僅對已經加載的連結有效"
+    },
+    "tags": {
+      "label": "標籤",
+      "placeholder": "新增標籤...",
+      "add": "新增標籤",
+      "remove": "刪除",
+      "filter_placeholder": "按標籤篩選...",
+      "all": "所有標籤",
+      "no_tags": "無標籤"
+    },
+    "filter": {
+      "all_dates": "所有日期"
     }
   }
 }

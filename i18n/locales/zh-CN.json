@@ -174,7 +174,21 @@
       "oldest": "最旧",
       "az": "短链(A-Z)",
       "za": "短链(Z-A)",
+      "most_clicks": "点击最多",
+      "least_clicks": "点击最少",
       "tip": "体验功能: 仅对已经加载的链接有效"
+    },
+    "tags": {
+      "label": "标签",
+      "placeholder": "添加标签...",
+      "add": "添加标签",
+      "remove": "删除",
+      "filter_placeholder": "按标签筛选...",
+      "all": "所有标签",
+      "no_tags": "无标签"
+    },
+    "filter": {
+      "all_dates": "所有日期"
     }
   }
 }

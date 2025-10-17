@@ -43,6 +43,13 @@ const emit = defineEmits(['update:sortBy'])
       <DropdownMenuItem @click="emit('update:sortBy', 'za')">
         {{ $t('links.sort.za') }}
       </DropdownMenuItem>
+      <DropdownMenuSeparator />
+      <DropdownMenuItem @click="emit('update:sortBy', 'most-clicks')">
+        {{ $t('links.sort.most_clicks') }}
+      </DropdownMenuItem>
+      <DropdownMenuItem @click="emit('update:sortBy', 'least-clicks')">
+        {{ $t('links.sort.least_clicks') }}
+      </DropdownMenuItem>
     </DropdownMenuContent>
   </DropdownMenu>
 </template>
