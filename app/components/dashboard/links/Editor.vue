@@ -48,6 +48,42 @@ const fieldConfig = {
     comment: {
       component: 'textarea',
     },
+    password: {
+      inputProps: {
+        type: 'password',
+        placeholder: 'Optional password protection',
+      },
+    },
+    utm_source: {
+      label: 'UTM Source',
+      inputProps: {
+        placeholder: 'e.g., newsletter, twitter',
+      },
+    },
+    utm_medium: {
+      label: 'UTM Medium',
+      inputProps: {
+        placeholder: 'e.g., email, social',
+      },
+    },
+    utm_campaign: {
+      label: 'UTM Campaign',
+      inputProps: {
+        placeholder: 'e.g., summer_sale',
+      },
+    },
+    utm_term: {
+      label: 'UTM Term',
+      inputProps: {
+        placeholder: 'e.g., keyword',
+      },
+    },
+    utm_content: {
+      label: 'UTM Content',
+      inputProps: {
+        placeholder: 'e.g., logo_link',
+      },
+    },
   },
 }
 
@@ -67,6 +103,12 @@ const form = useForm({
     url: link.value.url,
     optional: {
       comment: link.value.comment,
+      password: link.value.password,
+      utm_source: link.value.utm_source,
+      utm_medium: link.value.utm_medium,
+      utm_campaign: link.value.utm_campaign,
+      utm_term: link.value.utm_term,
+      utm_content: link.value.utm_content,
     },
   },
   validateOnMount: isEdit,
@@ -104,27 +146,41 @@ onMounted(() => {
 })
 
 async function onSubmit(formData) {
-  const link = {
-    url: formData.url,
-    slug: formData.slug,
-    ...(formData.optional || []),
-    expiration: formData.optional?.expiration ? date2unix(formData.optional?.expiration, 'end') : undefined,
+  try {
+    const link = {
+      url: formData.url,
+      slug: formData.slug,
+      ...(formData.optional || []),
+      expiration: formData.optional?.expiration ? date2unix(formData.optional?.expiration, 'end') : undefined,
+    }
+    const { link: newLink } = await useAPI(isEdit ? '/api/link/edit' : '/api/link/create', {
+      method: isEdit ? 'PUT' : 'POST',
+      body: link,
+    })
+    dialogOpen.value = false
+    emit('update:link', newLink, isEdit ? 'edit' : 'create')
+    if (isEdit) {
+      toast.success(t('links.update_success'))
+    }
+    else {
+      toast.success(t('links.create_success'))
+    }
   }
-  const { link: newLink } = await useAPI(isEdit ? '/api/link/edit' : '/api/link/create', {
-    method: isEdit ? 'PUT' : 'POST',
-    body: link,
-  })
-  dialogOpen.value = false
-  emit('update:link', newLink, isEdit ? 'edit' : 'create')
-  if (isEdit) {
-    toast(t('links.update_success'))
-  }
-  else {
-    toast(t('links.create_success'))
+  catch (error) {
+    console.error('Failed to save link:', error)
+    toast.error(isEdit ? 'Failed to update link' : 'Failed to create link')
   }
 }
 
 const { previewMode } = useRuntimeConfig().public
+
+// Computed property for short URL preview
+const shortUrlPreview = computed(() => {
+  const slug = form.values.slug
+  if (!slug)
+    return ''
+  return `${location.origin}/${slug}`
+})
 </script>
 
 <template>
@@ -177,6 +233,13 @@ const { previewMode } = useRuntimeConfig().public
             <AutoFormField
               v-bind="slotProps"
             />
+            <div
+              v-if="shortUrlPreview"
+              class="mt-2 p-2 text-sm text-muted-foreground bg-muted rounded-md border border-border"
+            >
+              <span class="font-medium">{{ $t('links.preview') }}: </span>
+              <span class="break-all">{{ shortUrlPreview }}</span>
+            </div>
           </div>
         </template>
         <DialogFooter>
