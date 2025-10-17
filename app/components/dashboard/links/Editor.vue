@@ -107,6 +107,15 @@ const fieldConfig = {
         placeholder: 'https://example.com/image.jpg',
       },
     },
+    expirationClicks: {
+      label: 'Expire After Clicks',
+      description: 'Link will expire after this many clicks',
+      inputProps: {
+        type: 'number',
+        placeholder: 'e.g., 100',
+        min: 1,
+      },
+    },
   },
 }
 
@@ -135,6 +144,7 @@ const form = useForm({
       og_title: link.value.og_title,
       og_description: link.value.og_description,
       og_image: link.value.og_image,
+      expirationClicks: link.value.expirationClicks,
     },
   },
   validateOnMount: isEdit,

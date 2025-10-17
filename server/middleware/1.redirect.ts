@@ -1,5 +1,6 @@
 import type { LinkSchema } from '@@/schemas/link'
 import type { z } from 'zod'
+import SqlBricks from 'mysql-bricks'
 import { parsePath, withQuery } from 'ufo'
 
 export default eventHandler(async (event) => {
@@ -29,10 +30,33 @@ export default eventHandler(async (event) => {
     }
 
     if (link) {
-      // Check if link has expired
+      // Check if link has expired by date
       if (link.expiration && link.expiration < Math.floor(Date.now() / 1000)) {
         // Link has expired, redirect to expired page
         return sendRedirect(event, '/expired', 302)
+      }
+
+      // Check if link has expired by click count
+      if (link.expirationClicks) {
+        try {
+          const { dataset } = useRuntimeConfig(event)
+          const { select } = SqlBricks
+          const sql = select('SUM(_sample_interval) as count')
+            .from(dataset)
+            .where('index1', link.id)
+            .toString()
+          const result = await useWAE(event, sql)
+          const clickCount = result?.[0]?.count || 0
+
+          if (clickCount >= link.expirationClicks) {
+            // Link has exceeded click limit, redirect to expired page
+            return sendRedirect(event, '/expired', 302)
+          }
+        }
+        catch (error) {
+          console.error('Failed to check click count:', error)
+          // Continue with redirect even if click count check fails
+        }
       }
 
       // Check if link is password protected

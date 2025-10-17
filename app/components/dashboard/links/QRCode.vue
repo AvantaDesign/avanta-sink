@@ -72,9 +72,9 @@ const qrCodeEl = ref(null)
 
 function updateColor(newColor) {
   qrCode.update({
-    dotsOptions: { type: 'dots', color: newColor, gradient: null },
-    cornersSquareOptions: { type: 'extra-rounded', color: newColor },
-    cornersDotOptions: { type: 'dot', color: newColor },
+    dotsOptions: { color: newColor },
+    cornersSquareOptions: { color: newColor },
+    cornersDotOptions: { color: newColor },
   })
 }
 
