@@ -1,7 +1,8 @@
 import type { LinkSchema } from '@@/schemas/link'
 import type { z } from 'zod'
-import SqlBricks from 'mysql-bricks'
 import { parsePath, withQuery } from 'ufo'
+
+const { select } = SqlBricks
 
 export default eventHandler(async (event) => {
   const { pathname: slug } = parsePath(event.path.replace(/^\/|\/$/g, '')) // remove leading and trailing slashes
@@ -40,7 +41,6 @@ export default eventHandler(async (event) => {
       if (link.expirationClicks) {
         try {
           const { dataset } = useRuntimeConfig(event)
-          const { select } = SqlBricks
           const sql = select('SUM(_sample_interval) as count')
             .from(dataset)
             .where('index1', link.id)
