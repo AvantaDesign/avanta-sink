@@ -1,9 +1,11 @@
 <script setup lang="ts">
-import { type HTMLAttributes, computed } from 'vue'
+import type { AlertDialogDescriptionProps } from 'radix-vue'
+import type { HTMLAttributes } from 'vue'
 import {
   AlertDialogDescription,
-  type AlertDialogDescriptionProps,
+
 } from 'radix-vue'
+import { computed } from 'vue'
 import { cn } from '@/utils'
 
 const props = defineProps<AlertDialogDescriptionProps & { class?: HTMLAttributes['class'] }>()

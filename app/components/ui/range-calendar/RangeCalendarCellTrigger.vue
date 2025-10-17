@@ -1,6 +1,8 @@
 <script lang="ts" setup>
-import { type HTMLAttributes, computed } from 'vue'
-import { RangeCalendarCellTrigger, type RangeCalendarCellTriggerProps, useForwardProps } from 'radix-vue'
+import type { RangeCalendarCellTriggerProps } from 'radix-vue'
+import type { HTMLAttributes } from 'vue'
+import { RangeCalendarCellTrigger, useForwardProps } from 'radix-vue'
+import { computed } from 'vue'
 import { buttonVariants } from '@/components/ui/button'
 import { cn } from '@/utils'
 

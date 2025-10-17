@@ -80,22 +80,24 @@ function updateLinkList(link, type) {
 }
 
 async function bulkDelete() {
-  if (selectedLinks.value.length === 0) return
-  
+  if (selectedLinks.value.length === 0)
+    return
+
   try {
     await useAPI('/api/link/bulk-delete', {
       method: 'POST',
       body: { slugs: selectedLinks.value },
     })
-    
+
     // Remove deleted links from the local list
     links.value = links.value.filter(link => !selectedLinks.value.includes(link.slug))
     selectedLinks.value = []
-    
-    toast('Selected links deleted successfully!')
-  } catch (error) {
+
+    toast.success('Selected links deleted successfully!')
+  }
+  catch (error) {
     console.error('Failed to delete links:', error)
-    toast('Failed to delete selected links')
+    toast.error('Failed to delete selected links')
   }
 }
 
@@ -111,12 +113,12 @@ function updateSelectedLinks(newSelectedLinks) {
         <div class="flex items-center gap-2">
           <DashboardLinksEditor @update:link="updateLinkList" />
           <DashboardLinksSort v-model:sort-by="sortBy" />
-          <Button 
+          <Button
             v-if="selectedLinks.length > 0"
-            variant="destructive" 
+            variant="destructive"
             size="sm"
-            @click="bulkDelete"
             class="flex items-center gap-2"
+            @click="bulkDelete"
           >
             <Trash2 class="w-4 h-4" />
             Delete Selected ({{ selectedLinks.length }})
@@ -125,7 +127,29 @@ function updateSelectedLinks(newSelectedLinks) {
       </DashboardNav>
       <LazyDashboardLinksSearch />
     </div>
-    <section class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+    <div
+      v-if="!isLoading && links.length === 0"
+      class="flex flex-col items-center justify-center py-16 text-center space-y-4"
+    >
+      <div class="text-6xl text-muted-foreground">
+        🔗
+      </div>
+      <h3 class="text-2xl font-semibold">
+        {{ $t('links.no_links_yet') }}
+      </h3>
+      <p class="text-muted-foreground max-w-md">
+        {{ $t('links.create_first_link') }}
+      </p>
+      <DashboardLinksEditor @update:link="updateLinkList">
+        <Button size="lg">
+          {{ $t('links.create') }}
+        </Button>
+      </DashboardLinksEditor>
+    </div>
+    <section
+      v-else
+      class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3"
+    >
       <DashboardLinksLink
         v-for="link in displayedLinks"
         :key="link.id"

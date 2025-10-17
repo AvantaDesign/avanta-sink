@@ -42,7 +42,6 @@ Streamlining the process of creating and editing links can significantly improve
 
 These suggestions focus on refining the overall look and feel of the application.
 
-
 - **Improved Notifications:**
   - Use the existing `vue-sonner` library to provide clear and immediate feedback for all user actions (e.g., "Link created successfully," "URL copied to clipboard," "Error saving link").
 
@@ -67,8 +66,5 @@ Adding these features would make the URL shortener a more powerful marketing and
 - **Password Protection:**
   - Implement a feature to require a password before a user is redirected to the destination URL.
 
-
 - **UTM Builder:**
   - Integrate a UTM parameter builder in the link creation form. This would help in creating consistent tracking tags for marketing campaigns.
-
-

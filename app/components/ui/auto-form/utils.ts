@@ -1,9 +1,9 @@
 import type { z } from 'zod'
 
 // TODO: This should support recursive ZodEffects but TypeScript doesn't allow circular type definitions.
-export type ZodObjectOrWrapped =
-  | z.ZodObject<any, any>
-  | z.ZodEffects<z.ZodObject<any, any>>
+export type ZodObjectOrWrapped
+  = | z.ZodObject<any, any>
+    | z.ZodEffects<z.ZodObject<any, any>>
 
 /**
  * Beautify a camelCase string.
@@ -122,7 +122,7 @@ type NestedRecord = Record<string, unknown> | { [k: string]: NestedRecord }
  * Checks if the path opted out of nested fields using `[fieldName]` syntax
  */
 export function isNotNestedPath(path: string) {
-  return /^\[.+\]$/i.test(path)
+  return /^\[.+\]$/.test(path)
 }
 function isObject(obj: unknown): obj is Record<string, unknown> {
   return obj !== null && !!obj && typeof obj === 'object' && !Array.isArray(obj)
@@ -132,7 +132,7 @@ function isContainerValue(value: unknown): value is Record<string, unknown> {
 }
 function cleanupNonNestedPath(path: string) {
   if (isNotNestedPath(path))
-    return path.replace(/\[|\]/gi, '')
+    return path.replace(/\[|\]/g, '')
 
   return path
 }

@@ -11,14 +11,20 @@ const props = defineProps({
 const emit = defineEmits(['update:link'])
 
 async function deleteLink() {
-  await useAPI('/api/link/delete', {
-    method: 'POST',
-    body: {
-      slug: props.link.slug,
-    },
-  })
-  emit('update:link', props.link, 'delete')
-  toast('Delete successful!')
+  try {
+    await useAPI('/api/link/delete', {
+      method: 'POST',
+      body: {
+        slug: props.link.slug,
+      },
+    })
+    emit('update:link', props.link, 'delete')
+    toast.success('Delete successful!')
+  }
+  catch (error) {
+    console.error('Failed to delete link:', error)
+    toast.error('Failed to delete link')
+  }
 }
 </script>
 

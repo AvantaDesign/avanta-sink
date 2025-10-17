@@ -1,5 +1,5 @@
 <script setup>
-import { Ellipsis, X, Link } from 'lucide-vue-next'
+import { Ellipsis, Link, X } from 'lucide-vue-next'
 
 const showMenu = ref(false)
 const { title } = useAppConfig()
@@ -21,7 +21,7 @@ const { title } = useAppConfig()
               src="/newicons/Imagotipo Avanta White_NO BORDER.png"
               alt="Avanta Design"
               class="h-10 w-auto"
-            />
+            >
           </a>
         </div>
 
