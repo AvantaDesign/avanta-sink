@@ -14,7 +14,7 @@ This document describes the implementation of Feature 1.2: Advanced Filtering an
   - Used to display click counts for each link
 
 #### API Endpoint
-- **New endpoint**: `/api/link/clicks.get.ts`
+- **New endpoint**: `server/api/link/clicks.get.ts`
 - **Purpose**: Fetch click counts for multiple links in a single request
 - **Parameters**: 
   - `ids` (string): Comma-separated list of link IDs
