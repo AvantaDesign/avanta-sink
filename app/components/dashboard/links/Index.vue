@@ -52,6 +52,34 @@ const displayedLinks = computed(() => {
   }
 })
 
+async function fetchClickCounts(linkIds) {
+  if (!linkIds || linkIds.length === 0) return
+  
+  try {
+    const ids = linkIds.join(',')
+    const clickCounts = await useAPI('/api/link/clicks', {
+      query: { ids },
+    })
+    
+    // Update links with their click counts
+    links.value.forEach((link) => {
+      if (clickCounts[link.id] !== undefined) {
+        link.clicks = clickCounts[link.id]
+      } else {
+        // Ensure all links have a clicks property, defaulting to 0
+        link.clicks = link.clicks || 0
+      }
+    })
+  }
+  catch (error) {
+    console.error('Failed to fetch click counts:', error)
+    // Set default clicks value for all links if API fails
+    links.value.forEach((link) => {
+      link.clicks = link.clicks || 0
+    })
+  }
+}
+
 async function getLinks() {
   try {
     const data = await useAPI('/api/link/list', {
@@ -68,22 +96,7 @@ async function getLinks() {
 
     // Fetch click counts for the new links
     if (newLinks.length > 0) {
-      try {
-        const ids = newLinks.map(link => link.id).join(',')
-        const clickCounts = await useAPI('/api/link/clicks', {
-          query: { ids },
-        })
-        // Update links with their click counts
-        newLinks.forEach((link) => {
-          if (clickCounts[link.id] !== undefined) {
-            link.clicks = clickCounts[link.id]
-          }
-        })
-      }
-      catch (error) {
-        console.error('Failed to fetch click counts:', error)
-        // Continue without click counts
-      }
+      await fetchClickCounts(newLinks.map(link => link.id))
     }
   }
   catch (error) {
@@ -149,6 +162,15 @@ async function bulkDelete() {
 function updateSelectedLinks(newSelectedLinks) {
   selectedLinks.value = newSelectedLinks
 }
+
+// Watch for sort changes to clicks-based sorting and refresh click counts
+watch(sortBy, async (newSortBy) => {
+  if (newSortBy === 'most-clicks' || newSortBy === 'least-clicks') {
+    // Ensure all links have click counts
+    const allLinkIds = links.value.map(link => link.id)
+    await fetchClickCounts(allLinkIds)
+  }
+})
 </script>
 
 <template>
