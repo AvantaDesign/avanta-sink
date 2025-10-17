@@ -74,6 +74,35 @@ export default eventHandler(async (event) => {
         target = withQuery(target, getQuery(event))
       }
 
+      // Check if link has custom Open Graph tags
+      if (link.og_title || link.og_description || link.og_image) {
+        // Return HTML with OG tags and JavaScript redirect
+        const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${link.og_title || link.title || 'Redirecting...'}</title>
+  ${link.og_title ? `<meta property="og:title" content="${link.og_title}" />` : ''}
+  ${link.og_description ? `<meta property="og:description" content="${link.og_description}" />` : ''}
+  ${link.og_image ? `<meta property="og:image" content="${link.og_image}" />` : ''}
+  <meta property="og:url" content="${target}" />
+  <meta property="og:type" content="website" />
+  ${link.og_title ? `<meta name="twitter:card" content="summary_large_image" />` : ''}
+  ${link.og_title ? `<meta name="twitter:title" content="${link.og_title}" />` : ''}
+  ${link.og_description ? `<meta name="twitter:description" content="${link.og_description}" />` : ''}
+  ${link.og_image ? `<meta name="twitter:image" content="${link.og_image}" />` : ''}
+  <meta http-equiv="refresh" content="0;url=${target}">
+  <script>window.location.href = ${JSON.stringify(target)};</script>
+</head>
+<body>
+  <p>Redirecting to <a href="${target}">${target}</a>...</p>
+</body>
+</html>`
+        setHeader(event, 'Content-Type', 'text/html')
+        return html
+      }
+
       return sendRedirect(event, target, +useRuntimeConfig(event).redirectStatusCode)
     }
   }

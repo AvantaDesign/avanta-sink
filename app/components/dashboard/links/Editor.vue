@@ -84,6 +84,29 @@ const fieldConfig = {
         placeholder: 'e.g., logo_link',
       },
     },
+    og_title: {
+      label: 'OG Title',
+      description: 'Custom Open Graph title for social media previews',
+      inputProps: {
+        placeholder: 'Override the default title',
+      },
+    },
+    og_description: {
+      label: 'OG Description',
+      description: 'Custom Open Graph description for social media previews',
+      component: 'textarea',
+      inputProps: {
+        placeholder: 'Override the default description',
+      },
+    },
+    og_image: {
+      label: 'OG Image URL',
+      description: 'Custom Open Graph image URL for social media previews',
+      inputProps: {
+        type: 'url',
+        placeholder: 'https://example.com/image.jpg',
+      },
+    },
   },
 }
 
@@ -109,6 +132,9 @@ const form = useForm({
       utm_campaign: link.value.utm_campaign,
       utm_term: link.value.utm_term,
       utm_content: link.value.utm_content,
+      og_title: link.value.og_title,
+      og_description: link.value.og_description,
+      og_image: link.value.og_image,
     },
   },
   validateOnMount: isEdit,

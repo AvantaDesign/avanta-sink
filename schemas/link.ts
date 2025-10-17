@@ -27,4 +27,7 @@ export const LinkSchema = z.object({
   utm_campaign: z.string().trim().max(256).optional(),
   utm_term: z.string().trim().max(256).optional(),
   utm_content: z.string().trim().max(256).optional(),
+  og_title: z.string().trim().max(2048).optional(),
+  og_description: z.string().trim().max(2048).optional(),
+  og_image: z.string().trim().url().max(2048).optional(),
 })
