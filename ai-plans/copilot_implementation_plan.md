@@ -14,8 +14,8 @@ This document provides a detailed, step-by-step guide for GitHub Copilot to impl
 
 1.  **File to Modify:** `app/components/dashboard/analysis/links/Table.vue`
     - **Add Checkbox State:** In the `<script setup>` section, add a new `ref` to store the IDs of the selected links.
-      ```javascript
-      const selectedLinks = ref<string[]>([]);
+      ```typescript
+      const selectedLinks = ref<string[]>([])
       ```
     - **Add "Select All" Checkbox:** In the `<thead>` of the table, add a checkbox in the first `<th>`. This checkbox's state should be bound to a computed property that checks if all visible links are selected. When clicked, it should call a method that either selects or deselects all links.
     - **Add Row Checkboxes:** In the `<tbody>`, add a checkbox to the first cell of each row (`<td>`). Bind its `v-model` to the `selectedLinks` array, using the `link.id` as the value.
