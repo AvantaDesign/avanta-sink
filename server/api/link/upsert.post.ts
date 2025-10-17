@@ -28,7 +28,7 @@ export default eventHandler(async (event) => {
     metadata: {
       expiration,
       url: link.url,
-      comment: link.comment,
+      title: link.title || link.comment,
     },
   })
 

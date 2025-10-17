@@ -17,7 +17,7 @@ const links = ref([])
 
 const { results: filteredLinks } = useFuse(searchTerm, links, {
   fuseOptions: {
-    keys: ['slug', 'url', 'comment'],
+    keys: ['slug', 'url', 'title'],
   },
   resultLimit: 20,
 })
@@ -84,9 +84,9 @@ onMounted(() => {
                   ({{ link.item?.url }})
                 </div>
               </div>
-              <Badge v-if="link.item?.comment" variant="secondary">
+              <Badge v-if="link.item?.title" variant="secondary">
                 <div class="truncate max-w-24">
-                  {{ link.item?.comment }}
+                  {{ link.item?.title }}
                 </div>
               </Badge>
             </div>

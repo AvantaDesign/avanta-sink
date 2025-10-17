@@ -109,7 +109,7 @@ function toggleSelection() {
               <div class="flex items-center justify-between">
                 <div class="flex items-center flex-1 min-w-0">
                   <div class="font-bold leading-5 truncate text-md">
-                    {{ link.comment || link.title || link.description }}
+                    {{ link.title || link.description }}
                   </div>
 
                   <CopyCheck
