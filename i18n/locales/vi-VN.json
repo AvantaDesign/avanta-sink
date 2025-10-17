@@ -174,7 +174,21 @@
       "oldest": "Cũ nhất trước",
       "az": "Slug A-Z",
       "za": "Slug Z-A",
+      "most_clicks": "Nhiều nhấp chuột nhất",
+      "least_clicks": "Ít nhấp chuột nhất",
       "tip": "Trải nghiệm: Chỉ áp dụng với các liên kết đã tải"
+    },
+    "tags": {
+      "label": "Thẻ",
+      "placeholder": "Thêm thẻ...",
+      "add": "Thêm thẻ",
+      "remove": "Xóa",
+      "filter_placeholder": "Lọc theo thẻ...",
+      "all": "Tất cả thẻ",
+      "no_tags": "Không có thẻ"
+    },
+    "filter": {
+      "all_dates": "Tất cả ngày"
     }
   }
 }

@@ -174,7 +174,21 @@
       "oldest": "Älteste zuerst",
       "az": "Slug A-Z",
       "za": "Slug Z-A",
+      "most_clicks": "Meiste Klicks",
+      "least_clicks": "Wenigste Klicks",
       "tip": "Hinweis: Nur für geladene Links"
+    },
+    "tags": {
+      "label": "Tags",
+      "placeholder": "Tags hinzufügen...",
+      "add": "Tag hinzufügen",
+      "remove": "Entfernen",
+      "filter_placeholder": "Nach Tags filtern...",
+      "all": "Alle Tags",
+      "no_tags": "Keine Tags"
+    },
+    "filter": {
+      "all_dates": "Alle Daten"
     }
   }
 }
