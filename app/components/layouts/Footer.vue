@@ -1,6 +1,5 @@
 <script setup>
 import { GitHubIcon, GmailIcon } from 'vue3-simple-icons'
-import { Link } from 'lucide-vue-next'
 
 const { title, email, github } = useAppConfig()
 </script>
@@ -17,7 +16,7 @@ const { title, email, github } = useAppConfig()
           src="/newicons/Imagotipo Avanta White_NO BORDER.png"
           alt="Avanta Design"
           class="w-8 h-8"
-        />
+        >
       </a>
       <a
         class="mt-4 text-sm text-muted-foreground sm:ml-4 sm:pl-4 sm:border-l sm:mt-0 hover:text-foreground transition-colors"
@@ -56,7 +55,7 @@ const { title, email, github } = useAppConfig()
             class="w-5 h-5"
           />
         </a>
-        
+
         <a
           href="https://avantadesign.com"
           target="_blank"

@@ -4,7 +4,7 @@ A self-hosted URL shortener powered by [Sink](https://github.com/denolehov/sink)
 
 ## 🚀 Features
 
-- **Custom Domain**: `avanta.design` 
+- **Custom Domain**: `avanta.design`
 - **84 Migrated Links**: Successfully migrated from T2M URL shortener
 - **Admin Dashboard**: Full management interface
 - **Analytics**: Click tracking and performance metrics
@@ -176,11 +176,12 @@ The URL shortener has been fully rebranded to match Avanta Design's visual ident
 ## 🤝 Support
 
 For issues or questions about this URL shortener setup, refer to:
+
 - [Sink Documentation](https://github.com/denolehov/sink)
 - [Cloudflare Workers Docs](https://developers.cloudflare.com/workers/)
 - [Nuxt Documentation](https://nuxt.com/)
 
 ---
 
-**Last Updated**: October 11, 2025  
+**Last Updated**: October 11, 2025
 **Status**: ✅ Production Ready

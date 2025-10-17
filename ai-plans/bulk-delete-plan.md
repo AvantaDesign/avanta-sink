@@ -62,18 +62,19 @@ For the frontend, we'll assume there is a main component that lists the links (e
 **Instructions:**
 
 1.  **Add state for selected links:**
+
     ```javascript
     const selectedLinks = ref([])
     ```
 
 2.  **Add a "Delete Selected" button:**
+
     ```html
-    <Button :disabled="selectedLinks.length === 0" @click="bulkDelete">
-      Delete Selected
-    </Button>
+    <button :disabled="selectedLinks.length === 0" @click="bulkDelete">Delete Selected</button>
     ```
 
 3.  **Create the `bulkDelete` method:**
+
     ```javascript
     async function bulkDelete() {
       try {
@@ -83,7 +84,8 @@ For the frontend, we'll assume there is a main component that lists the links (e
         })
         selectedLinks.value = []
         // Add logic to refresh the list of links here
-      } catch (error) {
+      }
+      catch (error) {
         console.error('Failed to delete links:', error)
       }
     }
@@ -99,11 +101,13 @@ For the frontend, we'll assume there is a main component that lists the links (e
 **Instructions:**
 
 1.  **Add a checkbox:**
+
     ```html
     <Checkbox :checked="isSelected" @update:checked="toggleSelection" />
     ```
 
 2.  **Define props to receive the selection state:**
+
     ```javascript
     const props = defineProps({
       link: Object,
@@ -114,6 +118,7 @@ For the frontend, we'll assume there is a main component that lists the links (e
     ```
 
 3.  **Add computed property and method for selection:**
+
     ```javascript
     const isSelected = computed(() => props.selectedLinks.includes(props.link.slug))
 
@@ -122,7 +127,8 @@ For the frontend, we'll assume there is a main component that lists the links (e
       if (isSelected.value) {
         const index = newSelectedLinks.indexOf(props.link.slug)
         newSelectedLinks.splice(index, 1)
-      } else {
+      }
+      else {
         newSelectedLinks.push(props.link.slug)
       }
       emit('update:selectedLinks', newSelectedLinks)
