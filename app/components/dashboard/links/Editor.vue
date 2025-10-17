@@ -25,6 +25,7 @@ const isEdit = !!props.link.id
 const EditLinkSchema = LinkSchema.pick({
   url: true,
   slug: true,
+  title: true,
 }).extend({
   optional: LinkSchema.omit({
     id: true,
@@ -36,6 +37,7 @@ const EditLinkSchema = LinkSchema.pick({
     description: true,
     image: true,
     clicks: true,
+    comment: true,
   }).extend({
     expiration: z.coerce.date().optional(),
   }).optional(),
@@ -45,10 +47,10 @@ const fieldConfig = {
   slug: {
     disabled: isEdit,
   },
+  title: {
+    component: 'textarea',
+  },
   optional: {
-    comment: {
-      component: 'textarea',
-    },
     password: {
       inputProps: {
         type: 'password',
@@ -141,8 +143,8 @@ const form = useForm({
   initialValues: {
     slug: link.value.slug,
     url: link.value.url,
+    title: link.value.title || link.value.comment,
     optional: {
-      comment: link.value.comment,
       password: link.value.password,
       utm_source: link.value.utm_source,
       utm_medium: link.value.utm_medium,
@@ -206,6 +208,7 @@ async function onSubmit(formData) {
     const link = {
       url: formData.url,
       slug: formData.slug,
+      title: formData.title,
       ...(formData.optional || []),
       expiration: formData.optional?.expiration ? date2unix(formData.optional?.expiration, 'end') : undefined,
       tags,
