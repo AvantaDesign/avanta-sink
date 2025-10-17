@@ -88,7 +88,7 @@ function toggleSelection() {
           class="flex flex-col flex-1 space-y-3"
           :to="`/admin/link?slug=${link.slug}`"
         >
-          <div class="flex items-center justify-center space-x-3">
+          <div class="flex items-start justify-start space-x-3">
             <Avatar>
               <AvatarImage
                 :src="linkIcon"
@@ -106,25 +106,25 @@ function toggleSelection() {
             </Avatar>
 
             <div class="flex-1 overflow-hidden">
-              <div class="flex items-center justify-between">
-                <div class="flex items-center flex-1 min-w-0">
-                  <div class="font-bold leading-5 truncate text-md">
+              <div class="flex items-start justify-between">
+                <div class="flex items-start flex-1 min-w-0">
+                  <div class="font-bold leading-5 text-md break-words">
                     {{ link.title || link.description }}
                   </div>
 
                   <CopyCheck
                     v-if="copied"
-                    class="w-4 h-4 ml-1 shrink-0"
+                    class="w-4 h-4 ml-1 shrink-0 mt-0.5"
                     @click.prevent
                   />
                   <Copy
                     v-else
-                    class="w-4 h-4 ml-1 shrink-0"
+                    class="w-4 h-4 ml-1 shrink-0 mt-0.5"
                     @click.prevent="copyLink"
                   />
                 </div>
 
-                <div class="flex items-center gap-2 ml-2 shrink-0">
+                <div class="flex items-start gap-2 ml-2 shrink-0">
                   <a
                     :href="link.url"
                     target="_blank"
