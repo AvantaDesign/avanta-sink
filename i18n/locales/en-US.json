@@ -177,7 +177,21 @@
       "oldest": "Oldest First",
       "az": "Slug A-Z",
       "za": "Slug Z-A",
+      "most_clicks": "Most Clicks",
+      "least_clicks": "Least Clicks",
       "tip": "Experience: Only for loaded links"
+    },
+    "tags": {
+      "label": "Tags",
+      "placeholder": "Add tags...",
+      "add": "Add Tag",
+      "remove": "Remove",
+      "filter_placeholder": "Filter by tags...",
+      "all": "All Tags",
+      "no_tags": "No tags"
+    },
+    "filter": {
+      "all_dates": "All Dates"
     }
   }
 }

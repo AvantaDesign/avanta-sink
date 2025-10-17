@@ -31,4 +31,6 @@ export const LinkSchema = z.object({
   og_title: z.string().trim().max(2048).optional(),
   og_description: z.string().trim().max(2048).optional(),
   og_image: z.string().trim().url().max(2048).optional(),
+  tags: z.array(z.string().trim().max(50)).max(10).default([]),
+  clicks: z.number().int().nonnegative().default(0),
 })

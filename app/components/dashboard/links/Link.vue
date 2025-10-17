@@ -234,6 +234,19 @@ function toggleSelection() {
                 </Tooltip>
               </TooltipProvider>
             </template>
+            <template v-if="link.clicks !== undefined">
+              <Separator orientation="vertical" />
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger as-child>
+                    <span class="inline-flex items-center leading-5 whitespace-nowrap">{{ link.clicks }} {{ link.clicks === 1 ? 'click' : 'clicks' }}</span>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Total Clicks: {{ link.clicks }}</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            </template>
             <Separator orientation="vertical" />
             <TooltipProvider v-if="!showFullUrl">
               <Tooltip>

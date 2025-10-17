@@ -11,20 +11,44 @@ let listError = false
 
 const sortBy = ref('az')
 const selectedLinks = ref([])
+const dateRangeFilter = ref(null)
+const selectedTags = ref([])
 
 const displayedLinks = computed(() => {
-  const sorted = [...links.value]
+  let filtered = [...links.value]
+
+  // Apply date range filter
+  if (dateRangeFilter.value) {
+    filtered = filtered.filter((link) => {
+      return link.createdAt >= dateRangeFilter.value.start && link.createdAt <= dateRangeFilter.value.end
+    })
+  }
+
+  // Apply tag filter
+  if (selectedTags.value.length > 0) {
+    filtered = filtered.filter((link) => {
+      if (!link.tags || !Array.isArray(link.tags))
+        return false
+      return selectedTags.value.some(tag => link.tags.includes(tag))
+    })
+  }
+
+  // Apply sorting
   switch (sortBy.value) {
     case 'newest':
-      return sorted.sort((a, b) => b.createdAt - a.createdAt)
+      return filtered.sort((a, b) => b.createdAt - a.createdAt)
     case 'oldest':
-      return sorted.sort((a, b) => a.createdAt - b.createdAt)
+      return filtered.sort((a, b) => a.createdAt - b.createdAt)
     case 'az':
-      return sorted.sort((a, b) => a.slug.localeCompare(b.slug))
+      return filtered.sort((a, b) => a.slug.localeCompare(b.slug))
     case 'za':
-      return sorted.sort((a, b) => b.slug.localeCompare(a.slug))
+      return filtered.sort((a, b) => b.slug.localeCompare(a.slug))
+    case 'most-clicks':
+      return filtered.sort((a, b) => (b.clicks || 0) - (a.clicks || 0))
+    case 'least-clicks':
+      return filtered.sort((a, b) => (a.clicks || 0) - (b.clicks || 0))
     default:
-      return sorted
+      return filtered
   }
 })
 
@@ -36,10 +60,31 @@ async function getLinks() {
         cursor,
       },
     })
-    links.value = links.value.concat(data.links).filter(Boolean) // Sometimes cloudflare will return null, filter out
+    const newLinks = data.links.filter(Boolean) // Sometimes cloudflare will return null, filter out
+    links.value = links.value.concat(newLinks)
     cursor = data.cursor
     listComplete = data.list_complete
     listError = false
+
+    // Fetch click counts for the new links
+    if (newLinks.length > 0) {
+      try {
+        const ids = newLinks.map(link => link.id).join(',')
+        const clickCounts = await useAPI('/api/link/clicks', {
+          query: { ids },
+        })
+        // Update links with their click counts
+        newLinks.forEach((link) => {
+          if (clickCounts[link.id] !== undefined) {
+            link.clicks = clickCounts[link.id]
+          }
+        })
+      }
+      catch (error) {
+        console.error('Failed to fetch click counts:', error)
+        // Continue without click counts
+      }
+    }
   }
   catch (error) {
     console.error(error)
@@ -126,6 +171,10 @@ function updateSelectedLinks(newSelectedLinks) {
         </div>
       </DashboardNav>
       <LazyDashboardLinksSearch />
+    </div>
+    <div class="flex flex-col gap-2 sm:flex-row sm:items-center">
+      <DashboardLinksDateRangeFilter @update:date-range="dateRangeFilter = $event" />
+      <DashboardLinksTagFilter v-model:selected-tags="selectedTags" />
     </div>
     <div
       v-if="!isLoading && links.length === 0"
