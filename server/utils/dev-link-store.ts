@@ -63,4 +63,23 @@ if (process.env.NODE_ENV === 'development') {
     createdAt: Math.floor(Date.now() / 1000),
     updatedAt: Math.floor(Date.now() / 1000),
   })
+
+  // Add some common test slugs that users might have cached
+  setDevLink('demo', {
+    id: 'demo123',
+    url: 'https://demo.example.com',
+    slug: 'demo',
+    title: 'Demo Link',
+    createdAt: Math.floor(Date.now() / 1000),
+    updatedAt: Math.floor(Date.now() / 1000),
+  })
+
+  setDevLink('sample', {
+    id: 'sample123',
+    url: 'https://sample.example.com',
+    slug: 'sample',
+    title: 'Sample Link',
+    createdAt: Math.floor(Date.now() / 1000),
+    updatedAt: Math.floor(Date.now() / 1000),
+  })
 }

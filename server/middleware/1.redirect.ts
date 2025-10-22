@@ -11,6 +11,11 @@ export default eventHandler(async (event) => {
   const { homeURL, linkCacheTtl, redirectWithQuery, caseSensitive, devMode } = useRuntimeConfig(event)
   const { cloudflare } = event.context
 
+  // Set cache headers to prevent caching of redirects and 404s
+  setHeader(event, 'Cache-Control', 'no-cache, no-store, must-revalidate')
+  setHeader(event, 'Pragma', 'no-cache')
+  setHeader(event, 'Expires', '0')
+
   if (event.path === '/' && homeURL)
     return sendRedirect(event, homeURL)
 
@@ -136,6 +141,25 @@ export default eventHandler(async (event) => {
       }
 
       return sendRedirect(event, target, +useRuntimeConfig(event).redirectStatusCode)
+    } else {
+      // Link not found - check if this might be a cached 404 issue
+      // Add cache-busting parameter to help users with cached 404s
+      const query = getQuery(event)
+      const hasCacheBust = query.v || query.cache_bust || query.timestamp
+      
+      if (!hasCacheBust) {
+        // Redirect to the same URL with a cache-busting parameter
+        const cacheBustUrl = `${event.path}?v=${Date.now()}`
+        console.log('Link not found, redirecting with cache-bust:', cacheBustUrl)
+        return sendRedirect(event, cacheBustUrl, 302)
+      }
+      
+      // If we still don't find the link after cache-busting, return 404
+      console.log('Link not found after cache-bust attempt:', slug)
+      throw createError({
+        statusCode: 404,
+        statusMessage: 'Link not found'
+      })
     }
   }
 })
