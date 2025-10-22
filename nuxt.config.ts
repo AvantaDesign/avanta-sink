@@ -33,6 +33,7 @@ export default defineNuxtConfig({
     caseSensitive: false,
     listQueryLimit: 500,
     disableBotAccessLog: false,
+    devMode: process.env.NODE_ENV === 'development',
     public: {
       previewMode: process.env.NUXT_PUBLIC_PREVIEW_MODE || '',
       slugDefaultLength: process.env.NUXT_PUBLIC_SLUG_DEFAULT_LENGTH || '6',
