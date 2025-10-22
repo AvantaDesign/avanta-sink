@@ -1,7 +1,7 @@
 import type { LinkSchema } from '@@/schemas/link'
 import type { z } from 'zod'
 import { parsePath, withQuery } from 'ufo'
-import { getDevLink } from './utils/dev-link-store'
+import { getDevLink } from '../utils/dev-link-store'
 
 const { select } = SqlBricks
 
