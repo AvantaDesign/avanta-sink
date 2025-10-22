@@ -4,8 +4,30 @@ definePageMeta({
   layout: false,
 })
 
+// Ensure no global components are loaded
 const route = useRoute()
 const router = useRouter()
+
+// Disable any global middleware or components
+useHead({
+  title: 'Link Not Found - Avanta Design',
+  meta: [
+    { name: 'robots', content: 'noindex, nofollow' }
+  ],
+  bodyAttrs: {
+    class: 'error-page'
+  }
+})
+
+// Override any global components
+onMounted(() => {
+  // Remove any admin/dashboard elements that might be globally loaded
+  const adminElements = document.querySelectorAll('[href*="admin"], [href*="dashboard"], .admin-nav, .dashboard-nav')
+  adminElements.forEach(el => el.remove())
+  
+  // Ensure body has no admin classes
+  document.body.classList.remove('admin', 'dashboard')
+})
 
 // Function to clear cache and retry
 function clearCacheAndRetry() {
@@ -40,7 +62,37 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="min-h-screen bg-background flex flex-col">
+  <div class="min-h-screen bg-background flex flex-col" style="position: relative; z-index: 9999;">
+    <!-- Ensure no global components are visible -->
+    <style>
+      /* Hide any potential global admin components */
+      .admin-nav, .dashboard-nav, .admin-buttons, 
+      [class*="admin"], [class*="dashboard"], 
+      .nav-admin, .nav-dashboard,
+      a[href*="admin"], a[href*="dashboard"],
+      .switch-language, .switch-theme,
+      [class*="switch"] {
+        display: none !important;
+        visibility: hidden !important;
+      }
+      
+      /* Ensure 404 page takes full control */
+      body.error-page {
+        overflow-x: hidden;
+        margin: 0;
+        padding: 0;
+      }
+      
+      /* Hide any navigation elements */
+      nav, header nav, .navigation {
+        display: none !important;
+      }
+      
+      /* Ensure our header is the only one visible */
+      .error-page header {
+        display: flex !important;
+      }
+    </style>
     <!-- Header with only logo -->
     <header class="flex justify-center items-center py-8">
       <div class="flex items-center space-x-3">
