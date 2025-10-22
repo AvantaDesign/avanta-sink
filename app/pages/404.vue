@@ -40,48 +40,73 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="flex min-h-screen items-center justify-center bg-background">
-    <Card class="w-full max-w-md mx-4">
-      <CardHeader class="text-center">
-        <div class="flex justify-center mb-4">
-          <div class="p-3 bg-muted rounded-full">
-            <AlertCircle class="w-8 h-8 text-destructive" />
+  <div class="min-h-screen bg-background flex flex-col">
+    <!-- Header with only logo -->
+    <header class="flex justify-center items-center py-8">
+      <div class="flex items-center space-x-3">
+        <img 
+          src="/newicons/Isotipo Avanta PP_2.jpg" 
+          alt="Avanta Design" 
+          class="h-12 w-12 rounded-lg"
+        />
+        <div>
+          <h1 class="text-xl font-bold text-foreground">Avanta Design</h1>
+          <p class="text-sm text-muted-foreground">Link Shortener</p>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main content - centered -->
+    <main class="flex-1 flex items-center justify-center px-4">
+      <Card class="w-full max-w-md">
+        <CardHeader class="text-center">
+          <div class="flex justify-center mb-4">
+            <div class="p-3 bg-muted rounded-full">
+              <AlertCircle class="w-8 h-8 text-destructive" />
+            </div>
           </div>
-        </div>
-        <CardTitle class="text-2xl">
-          Link Not Found
-        </CardTitle>
-        <CardDescription>
-          The link you're looking for doesn't exist or may have been cached incorrectly.
-        </CardDescription>
-      </CardHeader>
-      <CardContent class="space-y-4">
-        <div class="text-center space-y-2">
-          <p class="text-sm text-muted-foreground">
-            If you recently accessed this link, it might be cached incorrectly.
-          </p>
-          <p class="text-xs text-muted-foreground">
-            Auto-retrying with cache-busting...
-          </p>
-        </div>
-        
-        <div class="flex flex-col space-y-2">
-          <Button @click="clearCacheAndRetry" class="w-full">
-            <RefreshCw class="w-4 h-4 mr-2" />
-            Clear Cache & Retry
-          </Button>
+          <CardTitle class="text-2xl">
+            Link Not Found
+          </CardTitle>
+          <CardDescription>
+            The link you're looking for doesn't exist or may have been cached incorrectly.
+          </CardDescription>
+        </CardHeader>
+        <CardContent class="space-y-4">
+          <div class="text-center space-y-2">
+            <p class="text-sm text-muted-foreground">
+              If you recently accessed this link, it might be cached incorrectly.
+            </p>
+            <p class="text-xs text-muted-foreground">
+              Auto-retrying with cache-busting...
+            </p>
+          </div>
           
-          <Button variant="outline" @click="goBack" class="w-full">
-            <ArrowLeft class="w-4 h-4 mr-2" />
-            Go Back
-          </Button>
-        </div>
-      </CardContent>
-      <CardFooter class="text-center">
-        <p class="text-xs text-muted-foreground w-full">
-          If the problem persists, the link may have been deleted or expired.
-        </p>
-      </CardFooter>
-    </Card>
+          <div class="flex flex-col space-y-2">
+            <Button @click="clearCacheAndRetry" class="w-full">
+              <RefreshCw class="w-4 h-4 mr-2" />
+              Clear Cache & Retry
+            </Button>
+            
+            <Button variant="outline" @click="goBack" class="w-full">
+              <ArrowLeft class="w-4 h-4 mr-2" />
+              Go Back
+            </Button>
+          </div>
+        </CardContent>
+        <CardFooter class="text-center">
+          <p class="text-xs text-muted-foreground w-full">
+            If the problem persists, the link may have been deleted or expired.
+          </p>
+        </CardFooter>
+      </Card>
+    </main>
+
+    <!-- Footer with minimal branding -->
+    <footer class="py-8 text-center">
+      <p class="text-xs text-muted-foreground">
+        © 2024 Avanta Design. All rights reserved.
+      </p>
+    </footer>
   </div>
 </template>
