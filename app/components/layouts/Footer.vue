@@ -1,7 +1,7 @@
 <script setup>
-import { GitHubIcon, GmailIcon } from 'vue3-simple-icons'
+import { GmailIcon } from 'vue3-simple-icons'
 
-const { title, email, github } = useAppConfig()
+const { title, email } = useAppConfig()
 </script>
 
 <template>
@@ -15,7 +15,7 @@ const { title, email, github } = useAppConfig()
         <img
           src="/newicons/Imagotipo Avanta White_NO BORDER.png"
           alt="Avanta Design"
-          class="w-8 h-8"
+          class="h-10 w-auto"
         >
       </a>
       <a
@@ -40,33 +40,6 @@ const { title, email, github } = useAppConfig()
           <GmailIcon
             class="w-5 h-5"
           />
-        </a>
-
-        <a
-          v-if="github"
-          :href="github"
-          target="_blank"
-          title="GitHub"
-          class="text-muted-foreground hover:text-primary transition-colors"
-          rel="noopener"
-        >
-          <span class="sr-only">GitHub</span>
-          <GitHubIcon
-            class="w-5 h-5"
-          />
-        </a>
-
-        <a
-          href="https://avantadesign.com"
-          target="_blank"
-          title="Avanta Design Website"
-          class="text-muted-foreground hover:text-primary transition-colors"
-          rel="noopener"
-        >
-          <span class="sr-only">Avanta Design</span>
-          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z" />
-          </svg>
         </a>
       </span>
     </div>
